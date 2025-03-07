@@ -2,7 +2,7 @@
 
 [![License: GPL-3.0](https://img.shields.io/badge/License-GPL--3.0-blue.svg)](https://opensource.org/licenses/GPL-3.0)
 [![Demo](https://img.shields.io/badge/Demo-Live-brightgreen.svg)](https://integeralex.github.io/fingerprint-oss-demo/)
-
+[![Fingerprint OSS](https://img.shields.io/badge/Fingerprint%20OSS-Repository-blue.svg)](https://github.com/IntegerAlex/fingerprint-oss)
 This directory contains a demo application that showcases the capabilities of the Fingerprint OSS library. It provides a visual interface to see what kind of information the library can collect from a browser.
 ## Fingerprint-oss
 
