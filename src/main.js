@@ -1,5 +1,11 @@
 import './style.css'
-import { userInfo } from 'fingerprint-oss';
+//import { userInfo } from 'fingerprint-oss';
+
+// Imporing function from local file 
+// Note: This is just for testing purpose, in real world scenario you should import from 'fingerprint-oss'
+//import { userInfo } from '../../dist/index.js';
+
+
 
 document.addEventListener('DOMContentLoaded', () => {
     const resultElement = document.getElementById('result');
