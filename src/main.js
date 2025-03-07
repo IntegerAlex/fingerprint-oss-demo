@@ -1,5 +1,5 @@
 import './style.css'
-import { userInfo } from '../../dist/index.js';
+import { userInfo } from 'fingerprint-oss';
 
 document.addEventListener('DOMContentLoaded', () => {
     const resultElement = document.getElementById('result');

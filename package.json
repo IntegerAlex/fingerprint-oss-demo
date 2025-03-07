@@ -13,7 +13,7 @@
     "vite": "^6.2.0"
   },
   "dependencies": {
-    "fingerprint-oss": "^0.0.2"
+    "fingerprint-oss": "^0.2.2-alpha"
   },
   "description": "Demo application for the Fingerprint OSS library",
   "author": "IntegerAlex",
