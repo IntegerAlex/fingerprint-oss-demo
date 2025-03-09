@@ -1,10 +1,8 @@
 import './style.css'
 import { userInfo } from 'fingerprint-oss';
-
 // Imporing function from local file 
 // Note: This is just for testing purpose, in real world scenario you should import from 'fingerprint-oss'
-//import { userInfo } from '../../dist/index.js';
-
+//import { userInfo } from '../../dist/index.esm.js';
 
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -17,7 +15,6 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             // Get user information
             const result = await userInfo();
-            
             // Format the result for display with nice indentation
             const formattedResult = JSON.stringify(result, null, 2);
             
