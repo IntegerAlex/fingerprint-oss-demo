@@ -15,6 +15,15 @@ document.addEventListener('DOMContentLoaded', () => {
     loadingIndicator.className = 'loading-indicator';
     resultElement.appendChild(loadingIndicator);
     
+    /**
+     * Retrieves the user's digital fingerprint and displays a formatted result.
+     *
+     * This asynchronous function attempts to fetch user information using a timeout of 15 seconds. Upon a successful response,
+     * it removes the loading indicator and formats the result via a dedicated display function. In the event of a failure or timeout,
+     * it removes the loading indicator, updates the UI with an error message, and logs the error to the console.
+     *
+     * @async
+     */
     async function runTest() {
         try {
             // Get user information with a timeout to handle slow server responses
@@ -52,7 +61,17 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
     
-    // Format the result in a more user-friendly way
+    /**
+     * Formats and displays the fingerprint result data on the web page.
+     *
+     * Constructs a user-friendly view by dynamically generating HTML sections for various data categories,
+     * including Confidence Assessment, Geolocation Information, Browser & System, Hardware Information, Bot Detection,
+     * and Uniqueness Score. The function updates UI components such as the client IP display and confidence bar, and
+     * provides a toggleable section to view the raw JSON details of the fingerprint result.
+     *
+     * @param {Object} result - The fingerprint analysis data containing properties like geolocation, systemInfo, and
+     *                          confidenceAssessment.
+     */
     function formatAndDisplayResult(result) {
         // Create a container for the formatted result
         const container = document.createElement('div');
@@ -232,7 +251,18 @@ document.addEventListener('DOMContentLoaded', () => {
         addDisplayStyles();
     }
     
-    // Format confidence score as percentage with rating indicator
+    /**
+     * Formats a confidence score as a percentage string with a rating indicator.
+     *
+     * If the input score is null or undefined, the function returns "Not Available". For a valid score
+     * (typically a decimal between 0 and 1), the value is converted to a rounded percentage and paired with:
+     * - "🟢 High" for 80% or above,
+     * - "🟡 Medium" for 60% to 79%,
+     * - "🔴 Low" for below 60%.
+     *
+     * @param {number} score - A confidence score, usually a decimal value between 0 and 1.
+     * @returns {string} The formatted confidence score as a percentage and rating indicator.
+     */
     function formatConfidenceScore(score) {
         if (score === undefined || score === null) return 'Not Available';
         
@@ -250,13 +280,32 @@ document.addEventListener('DOMContentLoaded', () => {
         return `${percentage}% (${indicator})`;
     }
     
-    // Format OS information from system info
+    /**
+     * Formats OS information into a user-friendly string.
+     *
+     * Returns a string combining the operating system's name and its version if available.
+     * If no OS information is provided, it returns "Not Available".
+     *
+     * @param {{ os: string, version?: string } | null} osInfo - The operating system details.
+     * @returns {string} A formatted string with the OS name and optional version, or "Not Available" if osInfo is falsy.
+     */
     function formatOS(osInfo) {
         if (!osInfo) return 'Not Available';
         return `${osInfo.os} ${osInfo.version || ''}`.trim();
     }
     
-    // Format browser information from various sources
+    /**
+     * Extracts the browser name from the provided system information.
+     *
+     * The function first checks for an incognito browser name. If absent, it verifies whether
+     * the ad blocker's data indicates a Brave browser. If still not determined, it inspects the
+     * vendor flavors for a reference to a Chrome-based browser. If none of these sources yield a result,
+     * it returns 'Not Available'.
+     *
+     * @param {object} result - An object containing system information with properties such as incognito,
+     *                          adBlocker, and vendorFlavors.
+     * @returns {string} The formatted browser name or 'Not Available' if no valid browser information is found.
+     */
     function formatBrowserInfo(result) {
         // First try to get the browser name from incognito info
         let browserName = result.systemInfo?.incognito?.browserName;
@@ -274,7 +323,16 @@ document.addEventListener('DOMContentLoaded', () => {
         return browserName || 'Not Available';
     }
     
-    // Format bot signals into readable text
+    /**
+     * Formats an array of bot detection signals into a human-readable string.
+     *
+     * Each signal should be a string in the "level:description" format. The function extracts the
+     * level and description, then returns them as "description (level)". If the signals array is null,
+     * undefined, or empty, it returns "None detected".
+     *
+     * @param {string[]} signals - An array of bot signal strings in the "level:description" format.
+     * @returns {string} A formatted string listing bot signals, or "None detected" if no signals are provided.
+     */
     function formatBotSignals(signals) {
         if (!signals || signals.length === 0) return 'None detected';
         
@@ -285,8 +343,18 @@ document.addEventListener('DOMContentLoaded', () => {
         }).join(', ');
     }
     
-    // Generate a fingerprint hash - RESERVED FOR FUTURE USE
-    // This function is not currently active in the UI but is maintained for future implementation
+    /**
+     * Generates a fingerprint hash from system information.
+     *
+     * If a precomputed fingerprint exists within the data, it is returned immediately.
+     * Otherwise, the function constructs a hash by stringifying key system properties
+     * (such as user agent, screen resolution, color depth, platform, plugins, font preferences,
+     * timezone, and languages), computing a simple integer hash from the string, and converting
+     * the result to a 12-character hexadecimal value.
+     *
+     * @param {Object} data - An object containing system information used for generating the fingerprint.
+     * @returns {string} A 12-character hexadecimal fingerprint hash.
+     */
     function generateFingerprintHash(data) {
         // This functionality has been removed from the current UI
         // It will be implemented in a future release with improved algorithms
@@ -322,7 +390,21 @@ document.addEventListener('DOMContentLoaded', () => {
         return "Feature coming soon";
     }
     
-    // Calculate uniqueness score based on confidence scores
+    /**
+     * Calculates and returns a formatted uniqueness score based on available confidence scores.
+     *
+     * The function checks for a confidence score from:
+     * - systemInfo.confidenceScore,
+     * - confidenceAssessment.system.score, or
+     * - confidenceAssessment.combined.score.
+     *
+     * If none are provided, it defaults to a score of 0.5 (50%). The score is converted to a percentage and a string
+     * is returned indicating the uniqueness level ("High" with a lock emoji for scores of 80% or higher, "Medium"
+     * with a bell emoji for scores between 60% and 79%, or "Low" with a warning emoji for scores below 60%).
+     *
+     * @param {Object} data - An object containing confidence score information.
+     * @returns {string} The formatted uniqueness score.
+     */
     function calculateUniquenessScore(data) {
         // Use system confidence score if available
         const confidenceScore = data.systemInfo?.confidenceScore || 
@@ -342,7 +424,15 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
     
-    // Get tooltip text for specific fields
+    /**
+     * Retrieves the tooltip text for a given fingerprint field.
+     *
+     * Looks up a predefined set of tooltips corresponding to common field names and returns the descriptive message.
+     * If the field is not recognized, an empty string is returned.
+     *
+     * @param {string} field - The name of the field for which to obtain the tooltip.
+     * @returns {string} The tooltip text associated with the field, or an empty string if none exists.
+     */
     function getTooltipForField(field) {
         const tooltips = {
             // Keep the tooltip but comment out since we're not displaying it
@@ -356,7 +446,13 @@ document.addEventListener('DOMContentLoaded', () => {
         return tooltips[field] || '';
     }
     
-    // Add styles for better data display
+    /**
+     * Injects CSS styles for digital fingerprint data display into the document head.
+     *
+     * This function dynamically creates a <style> element containing style rules for layout,
+     * section formatting, tooltips, error messages, loading animations, and responsive behavior.
+     * The injected styles enhance the visual presentation and user interaction of fingerprint-related UI components.
+     */
     function addDisplayStyles() {
         const style = document.createElement('style');
         style.textContent = `
@@ -535,7 +631,15 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // New function to update the confidence bar
+    /**
+     * Updates the confidence bar UI elements based on provided confidence data.
+     *
+     * If valid confidence data and required DOM elements are present, this function calculates a percentage
+     * value from the confidence score and updates the text, fill width, and color of the confidence bar accordingly.
+     * The fill color is set to success, warning, or error based on predefined percentage thresholds.
+     *
+     * @param {{score: number, rating: string}} confidenceData - An object containing the confidence score (a value between 0 and 1) and its descriptive rating.
+     */
     function updateConfidenceBar(confidenceData) {
         if (!confidenceData) return;
         
