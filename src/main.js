@@ -58,41 +58,87 @@ document.addEventListener('DOMContentLoaded', () => {
         const container = document.createElement('div');
         container.className = 'fingerprint-result';
         
-        // Add sections for different types of information
+        // If we have an IP address from geolocation, update the display
+        if (result.geolocation?.ip) {
+            const ipElement = document.getElementById('client-ip');
+            if (ipElement) {
+                ipElement.textContent = result.geolocation.ip;
+            }
+        }
+        
+        // Update confidence bar if we have confidence assessment data
+        if (result.confidenceAssessment?.system?.score) {
+            updateConfidenceBar(result.confidenceAssessment.system);
+        }
+        
+        // Add sections for different types of information based on actual data structure
         const sections = {
-            'Browser Information': {
+            'Confidence Assessment': {
                 data: {
-                    'Browser': result.browser?.name + ' ' + result.browser?.version,
-                    'Operating System': result.os?.name + ' ' + result.os?.version,
-                    'Device Type': result.device?.type || 'Unknown',
-                    'Screen Resolution': `${window.screen.width}x${window.screen.height}`,
-                    'Color Depth': window.screen.colorDepth + ' bits',
-                    'Timezone': result.timezone || Intl.DateTimeFormat().resolvedOptions().timeZone
+                    'System Score': formatConfidenceScore(result.confidenceAssessment?.system?.score),
+                    'System Rating': result.confidenceAssessment?.system?.rating || 'Not Available',
+                    'Combined Score': formatConfidenceScore(result.confidenceAssessment?.combined?.score),
+                    'Combined Rating': result.confidenceAssessment?.combined?.rating || 'Not Available',
+                    'Reliability': result.confidenceAssessment?.system?.reliability || 'Not Available'
+                },
+                icon: 'fas fa-chart-bar'
+            },
+            'Geolocation Information': {
+                data: {
+                    'IP Address': result.geolocation?.ip || document.getElementById('client-ip')?.textContent || 'Not Available',
+                    'City': result.geolocation?.city || 'Not Available',
+                    'Region': result.geolocation?.region?.name || 'Not Available',
+                    'Country': result.geolocation?.country?.name || 'Not Available',
+                    'Continent': result.geolocation?.continent?.name || 'Not Available',
+                    'Timezone': result.geolocation?.location?.timeZone || 'Not Available',
+                    'Coordinates': result.geolocation?.location ? 
+                        `${result.geolocation.location.latitude}, ${result.geolocation.location.longitude}` : 
+                        'Not Available'
+                },
+                icon: 'fas fa-map-marker-alt'
+            },
+            'Browser & System': {
+                data: {
+                    'Browser': formatBrowserInfo(result),
+                    'User Agent': result.systemInfo?.userAgent || 'Not Available',
+                    'Platform': result.systemInfo?.platform || 'Not Available',
+                    'Operating System': formatOS(result.systemInfo?.os),
+                    'Incognito Mode': result.systemInfo?.incognito?.isPrivate ? 'Yes' : 'No',
+                    'Ad Blocker': result.systemInfo?.adBlocker?.adBlocker ? 'Yes' : 'No',
+                    'Language': (result.systemInfo?.languages && result.systemInfo.languages.length > 0) ? 
+                        result.systemInfo.languages.join(', ') : 'Not Available',
+                    'Timezone': result.systemInfo?.timezone || 'Not Available',
+                    'Cookies Enabled': result.systemInfo?.cookiesEnabled ? 'Yes' : 'No'
                 },
                 icon: 'fas fa-globe'
             },
             'Hardware Information': {
                 data: {
-                    'CPU Cores': navigator.hardwareConcurrency || 'Unknown',
-                    'Memory': result.memory || 'Unknown',
-                    'Device Model': result.device?.model || 'Unknown',
-                    'Graphics Card': result.gpu || 'Unknown'
+                    'Screen Resolution': result.systemInfo?.screenResolution ? 
+                        `${result.systemInfo.screenResolution[0]}x${result.systemInfo.screenResolution[1]}` : 
+                        'Not Available',
+                    'Color Depth': result.systemInfo?.colorDepth ? `${result.systemInfo.colorDepth} bits` : 'Not Available',
+                    'CPU Cores': result.systemInfo?.hardwareConcurrency || 'Not Available',
+                    'Device Memory': result.systemInfo?.deviceMemory ? `${result.systemInfo.deviceMemory} GB` : 'Not Available',
+                    'Touch Support': result.systemInfo?.touchSupport?.maxTouchPoints > 0 ? 'Yes' : 'No',
+                    'GPU Vendor': result.systemInfo?.webGL?.vendor || 'Not Available',
+                    'GPU Renderer': result.systemInfo?.webGL?.renderer || 'Not Available'
                 },
                 icon: 'fas fa-microchip'
             },
-            'Network Information': {
+            'Bot Detection': {
                 data: {
-                    'IP Address': document.getElementById('client-ip')?.textContent || 'Loading...',
-                    'Connection Type': result.connection?.type || 'Unknown',
-                    'ISP': result.isp || 'Unknown',
-                    'Proxy Detected': result.proxy ? 'Yes' : 'No'
+                    'Bot Detection': result.systemInfo?.bot?.isBot ? 'Potential Bot Detected' : 'Human User Detected',
+                    'Confidence': formatConfidenceScore(result.systemInfo?.bot?.confidence),
+                    'Signals': formatBotSignals(result.systemInfo?.bot?.signals)
                 },
-                icon: 'fas fa-network-wired'
+                icon: 'fas fa-robot'
             },
             'Uniqueness Score': {
                 data: {
-                    'Fingerprint Hash': result.fingerprint || generateFingerprint(result),
-                    'Estimated Uniqueness': calculateUniquenessScore(result)
+                    'Fingerprint Hash': generateFingerprintHash(result),
+                    'System Confidence': formatConfidenceScore(result.systemInfo?.confidenceScore),
+                    'Uniqueness Estimation': calculateUniquenessScore(result)
                 },
                 icon: 'fas fa-fingerprint'
             }
@@ -113,12 +159,12 @@ document.addEventListener('DOMContentLoaded', () => {
             
             // Add each data point
             Object.entries(sectionData.data).forEach(([key, value]) => {
-                if (value) {
+                if (value && value !== 'Not Available') {
                     const dataPoint = document.createElement('div');
                     dataPoint.className = 'data-point';
                     
                     // Add tooltip for certain fields
-                    if (key === 'Estimated Uniqueness' || key === 'Fingerprint Hash') {
+                    if (['Fingerprint Hash', 'System Confidence', 'Uniqueness Estimation', 'Bot Detection'].includes(key)) {
                         dataPoint.classList.add('tooltip');
                         dataPoint.innerHTML = `
                             <span class="data-label">${key}:</span>
@@ -173,50 +219,104 @@ document.addEventListener('DOMContentLoaded', () => {
         addDisplayStyles();
     }
     
-    // Generate a fingerprint hash if not provided
-    function generateFingerprint(data) {
-        // Simple hash function for demo purposes
-        const str = JSON.stringify(data);
-        let hash = 0;
+    // Format confidence score as percentage with rating indicator
+    function formatConfidenceScore(score) {
+        if (score === undefined || score === null) return 'Not Available';
         
+        const percentage = Math.round(score * 100);
+        let indicator = '';
+        
+        if (percentage >= 80) {
+            indicator = '🟢 High';
+        } else if (percentage >= 60) {
+            indicator = '🟡 Medium';
+        } else {
+            indicator = '🔴 Low';
+        }
+        
+        return `${percentage}% (${indicator})`;
+    }
+    
+    // Format OS information from system info
+    function formatOS(osInfo) {
+        if (!osInfo) return 'Not Available';
+        return `${osInfo.os} ${osInfo.version || ''}`.trim();
+    }
+    
+    // Format browser information from various sources
+    function formatBrowserInfo(result) {
+        // First try to get the browser name from incognito info
+        let browserName = result.systemInfo?.incognito?.browserName;
+        
+        // If not available, check if it's a Brave browser
+        if (!browserName && result.systemInfo?.adBlocker?.isBrave) {
+            browserName = 'Brave';
+        }
+        
+        // If still not available, check vendor flavors
+        if (!browserName && result.systemInfo?.vendorFlavors?.includes('chrome')) {
+            browserName = 'Chrome-based';
+        }
+        
+        return browserName || 'Not Available';
+    }
+    
+    // Format bot signals into readable text
+    function formatBotSignals(signals) {
+        if (!signals || signals.length === 0) return 'None detected';
+        
+        return signals.map(signal => {
+            // Extract level and description from "level:description" format
+            const [level, description] = signal.split(':');
+            return `${description} (${level})`;
+        }).join(', ');
+    }
+    
+    // Generate a fingerprint hash 
+    function generateFingerprintHash(data) {
+        // Use the fingerprint hash if already available in the data
+        if (data.systemInfo?.fingerprint) return data.systemInfo.fingerprint;
+        
+        // Otherwise create a simple hash
+        const str = JSON.stringify({
+            userAgent: data.systemInfo?.userAgent,
+            screenResolution: data.systemInfo?.screenResolution,
+            colorDepth: data.systemInfo?.colorDepth,
+            platform: data.systemInfo?.platform,
+            plugins: data.systemInfo?.plugins,
+            fonts: data.systemInfo?.fontPreferences,
+            timezone: data.systemInfo?.timezone,
+            language: data.systemInfo?.languages
+        });
+        
+        let hash = 0;
         for (let i = 0; i < str.length; i++) {
             const char = str.charCodeAt(i);
             hash = ((hash << 5) - hash) + char;
             hash = hash & hash; // Convert to 32bit integer
         }
         
-        // Convert to hex format
-        return Math.abs(hash).toString(16).slice(0, 8);
+        // Convert to hex format with a length of 12 characters
+        return (Math.abs(hash).toString(16) + '000000000000').slice(0, 12);
     }
     
-    // Calculate uniqueness score for display
+    // Calculate uniqueness score based on confidence scores
     function calculateUniquenessScore(data) {
-        // This is a simplified calculation for demo purposes
-        // In a real implementation, this would compare against a database
+        // Use system confidence score if available
+        const confidenceScore = data.systemInfo?.confidenceScore || 
+                              data.confidenceAssessment?.system?.score || 
+                              data.confidenceAssessment?.combined?.score || 
+                              0.5; // Default to medium if no scores available
         
-        // Count number of significant data points we can collect
-        const dataPoints = [
-            data.browser?.name, 
-            data.browser?.version,
-            data.os?.name,
-            data.os?.version, 
-            data.timezone,
-            window.screen.width + 'x' + window.screen.height,
-            window.screen.colorDepth,
-            navigator.language,
-            navigator.hardwareConcurrency
-        ].filter(Boolean).length;
-        
-        // Calculate a score based on available data points
-        const score = Math.min(Math.round((dataPoints / 10) * 100), 99);
+        const percentage = Math.round(confidenceScore * 100);
         
         // Return in a readable format with emoji indicator
-        if (score > 80) {
-            return `High (${score}%) 🔒`;
-        } else if (score > 60) {
-            return `Medium (${score}%) 🔔`;
+        if (percentage >= 80) {
+            return `High (${percentage}%) 🔒`;
+        } else if (percentage >= 60) {
+            return `Medium (${percentage}%) 🔔`;
         } else {
-            return `Low (${score}%) ⚠️`;
+            return `Low (${percentage}%) ⚠️`;
         }
     }
     
@@ -224,7 +324,9 @@ document.addEventListener('DOMContentLoaded', () => {
     function getTooltipForField(field) {
         const tooltips = {
             'Fingerprint Hash': 'A unique identifier generated from your device characteristics. This is not personally identifiable.',
-            'Estimated Uniqueness': 'How distinguishable your browser fingerprint is compared to others. Higher uniqueness means better identification accuracy.'
+            'System Confidence': 'How confident the system is about the accuracy of the collected data.',
+            'Uniqueness Estimation': 'How distinguishable your browser fingerprint is compared to others. Higher uniqueness means better identification accuracy.',
+            'Bot Detection': 'Analysis of whether this session appears to be from an automated system or a human user.'
         };
         
         return tooltips[field] || '';
@@ -290,6 +392,9 @@ document.addEventListener('DOMContentLoaded', () => {
             
             .data-value {
                 color: var(--text-primary);
+                max-width: 60%;
+                text-align: right;
+                word-break: break-word;
             }
             
             .tech-details-toggle {
@@ -360,6 +465,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 .section-content {
                     grid-template-columns: 1fr;
                 }
+                
+                .data-value {
+                    max-width: 50%;
+                }
             }
         `;
         document.head.appendChild(style);
@@ -379,5 +488,37 @@ document.addEventListener('DOMContentLoaded', () => {
             
             runTest();
         });
+    }
+
+    // New function to update the confidence bar
+    function updateConfidenceBar(confidenceData) {
+        if (!confidenceData) return;
+        
+        const confidenceBar = document.getElementById('confidence-bar');
+        const confidenceText = document.getElementById('confidence-text');
+        const confidenceFill = document.getElementById('confidence-bar-fill');
+        
+        if (confidenceBar && confidenceText && confidenceFill) {
+            // Show the confidence bar
+            confidenceBar.style.display = 'block';
+            
+            // Calculate the percentage
+            const percentage = Math.round(confidenceData.score * 100);
+            
+            // Update the text
+            confidenceText.textContent = `${confidenceData.rating} (${percentage}%)`;
+            
+            // Update the fill
+            confidenceFill.style.width = `${percentage}%`;
+            
+            // Set color based on confidence level
+            if (percentage >= 80) {
+                confidenceFill.style.backgroundColor = 'var(--success-color)';
+            } else if (percentage >= 60) {
+                confidenceFill.style.backgroundColor = 'var(--warning-color)';
+            } else {
+                confidenceFill.style.backgroundColor = 'var(--error-color)';
+            }
+        }
     }
 }); 

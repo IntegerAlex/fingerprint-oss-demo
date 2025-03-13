@@ -497,6 +497,34 @@ button {
   margin-right: var(--spacing-xs);
 }
 
+/* Confidence bar styles */
+.confidence-explanation {
+  margin-top: var(--spacing-sm);
+  padding-top: var(--spacing-sm);
+  border-top: 1px dashed var(--border-color);
+}
+
+.confidence-bar-container {
+  height: 8px;
+  background-color: var(--bg-tertiary);
+  border-radius: 4px;
+  overflow: hidden;
+  margin: var(--spacing-xs) 0;
+}
+
+.confidence-bar {
+  height: 100%;
+  width: 0;
+  background-color: var(--primary-color);
+  transition: width 1s ease-in-out, background-color 1s;
+}
+
+.confidence-note {
+  font-size: var(--font-size-xs);
+  opacity: 0.8;
+  margin-top: var(--spacing-xs);
+}
+
 /* ==============================
  * 8. GET STARTED SECTION
  * ============================== */
