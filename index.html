@@ -311,6 +311,9 @@ const data = userInfo();</code></pre>
         async function fetchStarCount() {
             try {
                 const response = await fetch('https://api.github.com/repos/IntegerAlex/fingerprint-oss');
+                if (!response.ok) {
+                    throw new Error(`GitHub API request failed with status: ${response.status}`);
+                }
                 const data = await response.json();
                 const starCount = document.getElementById('starCount');
                 
@@ -330,6 +333,10 @@ const data = userInfo();</code></pre>
             } catch (error) {
                 console.error('Error fetching star count:', error);
                 document.getElementById('starCount').innerHTML = '★';
+                // Consider adding a small notification about API limits if appropriate
+                if (error.message && error.message.includes('429')) {
+                    console.warn('GitHub API rate limit exceeded. Try again later.');
+                }
             }
         }
         
