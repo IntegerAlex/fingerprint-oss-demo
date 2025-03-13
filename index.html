@@ -428,12 +428,25 @@ const data = userInfo();</code></pre>
         
         function copyCode(button) {
             const codeBlock = button.parentElement.querySelector('code');
-            navigator.clipboard.writeText(codeBlock.textContent);
-            
-            button.innerHTML = '<i class="fas fa-check"></i>';
-            setTimeout(() => {
-                button.innerHTML = '<i class="far fa-copy"></i>';
-            }, 2000);
+            navigator.clipboard.writeText(codeBlock.textContent)
+                .then(() => {
+                    // Success feedback
+                    button.innerHTML = '<i class="fas fa-check"></i>';
+                    setTimeout(() => {
+                        button.innerHTML = '<i class="far fa-copy"></i>';
+                    }, 2000);
+                })
+                .catch(err => {
+                    // Error feedback
+                    console.error('Copy failed:', err);
+                    button.innerHTML = '<i class="fas fa-times"></i>';
+                    setTimeout(() => {
+                        button.innerHTML = '<i class="far fa-copy"></i>';
+                    }, 2000);
+                    
+                    // Optionally show a tooltip or message to the user
+                    alert('Copy failed. Please try selecting and copying manually.');
+                });
         }
         
         // Remove the separate fetch for IP address since we get it from userInfo()
