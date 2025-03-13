@@ -344,16 +344,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     /**
-     * Generates a fingerprint hash from system information.
+     * Returns a placeholder fingerprint hash.
      *
-     * If a precomputed fingerprint exists within the data, it is returned immediately.
-     * Otherwise, the function constructs a hash by stringifying key system properties
-     * (such as user agent, screen resolution, color depth, platform, plugins, font preferences,
-     * timezone, and languages), computing a simple integer hash from the string, and converting
-     * the result to a 12-character hexadecimal value.
+     * This function currently acts as a stub by always returning a placeholder string ("Feature coming soon").
+     * In a future release, it will generate a 12-character hexadecimal fingerprint hash based on various system
+     * properties (such as user agent, screen resolution, color depth, platform, plugins, font preferences,
+     * timezone, and languages). The actual hash computation logic has been retained in comments for development reference.
      *
-     * @param {Object} data - An object containing system information used for generating the fingerprint.
-     * @returns {string} A 12-character hexadecimal fingerprint hash.
+     * @param {Object} data - System information that would be used to generate the fingerprint hash.
+     * @returns {string} A placeholder string indicating that the fingerprint hash feature is forthcoming.
      */
     function generateFingerprintHash(data) {
         // This functionality has been removed from the current UI
