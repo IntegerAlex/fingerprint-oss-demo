@@ -1,109 +1,77 @@
-# Fingerprint OSS
+S# Fingerprint OSS Demo
 
-A lightweight, privacy-focused user identity solution for web applications. This open-source solution helps you identify users and prevent fraud while respecting user privacy and preferences.
+[![License: GPL-3.0](https://img.shields.io/badge/License-GPL--3.0-blue.svg)](https://opensource.org/licenses/GPL-3.0)
+[![Demo](https://img.shields.io/badge/Demo-Live-brightgreen.svg)](https://integeralex.github.io/fingerprint-oss-demo/)
+[![Fingerprint OSS](https://img.shields.io/badge/Fingerprint%20OSS-Repository-blue.svg)](https://github.com/IntegerAlex/fingerprint-oss)
+This directory contains a demo application that showcases the capabilities of the Fingerprint OSS library. It provides a visual interface to see what kind of information the library can collect from a browser.
+## Fingerprint-oss
 
-## 🌟 Features
+[main repository](https://github.com/IntegerAlex/fingerprint-oss)
 
-- **Privacy-First Approach**: Collects only essential data with user consent, ensuring compliance with global privacy regulations
-- **Lightweight Implementation**: Optimized performance that won't slow down your application
-- **Easy Integration**: Simple API that integrates with your existing codebase in minutes
-- **Enhanced Security**: Protect your users from account takeovers and fraudulent activities
+## Live Demo
 
-## 🚀 Demo
+You can view a live version of this demo at: [https://integeralex.github.io/fingerprint-oss-demo/](https://integeralex.github.io/fingerprint-oss-demo/)
 
-Visit our [live demo](https://integeralex.github.io/fingerprint-oss/) to see your digital fingerprint information.
+## Features Demonstrated
 
-## 📦 Installation
+- Visualization of all data points collected by Fingerprint OSS
+- Clean, responsive UI for desktop and mobile devices
+- Code examples showing how to integrate the library
+- Copy functionality for easy code reuse
 
-```bash
-npm install fingerprint-oss
-```
+## Running Locally
 
-## 🔧 Usage
+To run this demo on your local machine:
 
-### Basic Usage
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/IntegerAlex/fingerprint-oss-demo.git
+   cd fingerprint-oss-demo/
+   ```
 
-```javascript
-// Using CommonJS
-const { userInfo } = require('fingerprint-oss');
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
 
-// Using ES Modules
-import { userInfo } from 'fingerprint-oss';
+3. Start the development server:
+   ```bash
+   npm run dev
+   ```
 
-// Get user information
-const data = await userInfo();
-console.log(data);
-```
+4. Open your browser and navigate to `http://localhost:5173`
 
-### Example Response
+## How It Works
 
-```json
-{
-  "browser": {
-    "name": "Chrome",
-    "version": "96.0.4664.110"
-  },
-  "os": {
-    "name": "Windows",
-    "version": "10"
-  },
-  "device": {
-    "type": "desktop",
-    "model": null
-  },
-  "screen": {
-    "width": 1920,
-    "height": 1080
-  },
-  "timezone": "Europe/London",
-  "language": "en-US",
-  "connection": {
-    "type": "wifi"
-  },
-  "isp": "Example ISP",
-  "proxy": false,
-  "fingerprint": "a1b2c3d4e5f6g7h8i9j0"
-}
-```
+The demo application uses the Fingerprint OSS library to collect browser information. When you load the page, the library is called and the results are displayed in a formatted JSON object.
 
-## 🛡️ User Privacy
+Key components:
+- `index.html` - The main HTML file for the demo
+- `src/style.css` - Styling for the demo
+- `src/main.js` - JavaScript that calls the Fingerprint OSS library and displays results
 
-We are committed to user privacy and transparency. This library:
+## Example Output
 
-- Collects only necessary information to identify users
-- Makes it clear what data is being collected
-- Never shares data with third parties
-- Provides an easy way for users to understand their digital fingerprint
+The demo will display information including:
 
-## 🔍 Use Cases
+- Browser details (name, version, language)
+- Operating system information
+- Screen and window dimensions
+- Hardware details where available
+- Network information
+- Time and timezone data
+- And much more...
 
-- **Fraud Prevention**: Identify and block suspicious activities
-- **Enhanced Authentication**: Add an extra layer of security beyond passwords
-- **User Experience Personalization**: Customize experiences based on device capabilities
-- **Analytics**: Gain insights into user behavior without collecting personal information
+## Security & Privacy Notes
 
-## 📘 Documentation
+This demo is for educational purposes only. The Fingerprint OSS library only displays the collected information in your browser and does not transmit any data to remote servers.
 
-For full documentation, visit our [GitHub repository](https://github.com/IntegerAlex/fingerprint-oss).
+All processing happens client-side, keeping your information private and secure.
 
-## 🤝 Contributing
+## Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request or open an issue to improve this library.
+If you'd like to improve this demo, please feel free to submit pull requests to the [main repository](https://github.com/IntegerAlex/fingerprint-oss).
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+## License
 
-## 📝 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## ⭐ Support
-
-If you find this project helpful, please consider giving it a star on GitHub!
-
----
-
-Built with ❤️ by [IntegerAlex](https://github.com/IntegerAlex)
+This demo is released under the GPL-3.0 license, the same as the main Fingerprint OSS library. 

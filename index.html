@@ -77,7 +77,7 @@
             </div>
             <div class="nav-actions">
                 <!-- Star our repository widget -->
-                <a href="https://github.com/IntegerAlex/fingerprint-oss" class="github-star-widget" target="_blank" id="starButton" aria-label="Star on GitHub">
+                <a href="https://github.com/IntegerAlex/fingerprint-oss" class="github-star-widget" target="_blank" rel="noopener noreferrer" id="starButton" aria-label="Star on GitHub">
                     <i class="fas fa-star"></i>
                     Star Repository
                     <span class="star-count" id="starCount"><i class="fas fa-spinner fa-spin"></i></span>
@@ -442,8 +442,8 @@ const data = userInfo();</code></pre>
             
         // Add refresh functionality
         document.getElementById('refresh-demo').addEventListener('click', function() {
-            document.getElementById('result').textContent = 'Refreshing...';
-            location.reload();
+            document.getElementById('result').textContent = 'Refreshing your digital fingerprint...';
+            runTest();
         });
         
         // Privacy settings toggle (placeholder)
