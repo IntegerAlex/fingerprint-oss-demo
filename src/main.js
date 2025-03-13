@@ -136,9 +136,11 @@ document.addEventListener('DOMContentLoaded', () => {
             },
             'Uniqueness Score': {
                 data: {
-                    'Fingerprint Hash': generateFingerprintHash(result),
+                    // Remove the fingerprint hash from display
+                    // 'Fingerprint Hash': generateFingerprintHash(result),
                     'System Confidence': formatConfidenceScore(result.systemInfo?.confidenceScore),
-                    'Uniqueness Estimation': calculateUniquenessScore(result)
+                    'Uniqueness Estimation': calculateUniquenessScore(result),
+                    'Future Features': 'Fingerprint hash generation will be available in future releases.'
                 },
                 icon: 'fas fa-fingerprint'
             }
@@ -164,13 +166,24 @@ document.addEventListener('DOMContentLoaded', () => {
                     dataPoint.className = 'data-point';
                     
                     // Add tooltip for certain fields
-                    if (['Fingerprint Hash', 'System Confidence', 'Uniqueness Estimation', 'Bot Detection'].includes(key)) {
+                    if (['System Confidence', 'Uniqueness Estimation', 'Bot Detection', 'Future Features'].includes(key)) {
                         dataPoint.classList.add('tooltip');
-                        dataPoint.innerHTML = `
-                            <span class="data-label">${key}:</span>
-                            <span class="data-value">${value}</span>
-                            <span class="tooltip-text">${getTooltipForField(key)}</span>
-                        `;
+                        
+                        // Style the Future Features differently to indicate it's a future scope
+                        if (key === 'Future Features') {
+                            dataPoint.classList.add('future-feature');
+                            dataPoint.innerHTML = `
+                                <span class="data-label"><i class="fas fa-hourglass-half"></i> ${key}:</span>
+                                <span class="data-value future-value">${value}</span>
+                                <span class="tooltip-text">${getTooltipForField(key)}</span>
+                            `;
+                        } else {
+                            dataPoint.innerHTML = `
+                                <span class="data-label">${key}:</span>
+                                <span class="data-value">${value}</span>
+                                <span class="tooltip-text">${getTooltipForField(key)}</span>
+                            `;
+                        }
                     } else {
                         dataPoint.innerHTML = `
                             <span class="data-label">${key}:</span>
@@ -272,8 +285,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }).join(', ');
     }
     
-    // Generate a fingerprint hash 
+    // Generate a fingerprint hash - RESERVED FOR FUTURE USE
+    // This function is not currently active in the UI but is maintained for future implementation
     function generateFingerprintHash(data) {
+        // This functionality has been removed from the current UI
+        // It will be implemented in a future release with improved algorithms
+        
+        // Code retained for development reference:
+        /*
         // Use the fingerprint hash if already available in the data
         if (data.systemInfo?.fingerprint) return data.systemInfo.fingerprint;
         
@@ -298,6 +317,9 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Convert to hex format with a length of 12 characters
         return (Math.abs(hash).toString(16) + '000000000000').slice(0, 12);
+        */
+        
+        return "Feature coming soon";
     }
     
     // Calculate uniqueness score based on confidence scores
@@ -323,10 +345,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // Get tooltip text for specific fields
     function getTooltipForField(field) {
         const tooltips = {
-            'Fingerprint Hash': 'A unique identifier generated from your device characteristics. This is not personally identifiable.',
+            // Keep the tooltip but comment out since we're not displaying it
+            // 'Fingerprint Hash': 'A unique identifier generated from your device characteristics. This is not personally identifiable.',
             'System Confidence': 'How confident the system is about the accuracy of the collected data.',
             'Uniqueness Estimation': 'How distinguishable your browser fingerprint is compared to others. Higher uniqueness means better identification accuracy.',
-            'Bot Detection': 'Analysis of whether this session appears to be from an automated system or a human user.'
+            'Bot Detection': 'Analysis of whether this session appears to be from an automated system or a human user.',
+            'Future Features': 'Features that are planned for upcoming releases of the fingerprint library.'
         };
         
         return tooltips[field] || '';
@@ -469,6 +493,27 @@ document.addEventListener('DOMContentLoaded', () => {
                 .data-value {
                     max-width: 50%;
                 }
+            }
+
+            /* Future feature styling */
+            .future-feature {
+                background-color: var(--bg-tertiary);
+                border-radius: var(--border-radius-sm);
+                padding: var(--spacing-xs) var(--spacing-sm);
+                margin-top: var(--spacing-sm);
+                border-left: 3px dashed var(--primary-color);
+            }
+            
+            .future-feature .data-label {
+                color: var(--primary-color);
+                display: flex;
+                align-items: center;
+                gap: var(--spacing-xs);
+            }
+            
+            .future-value {
+                font-style: italic;
+                color: var(--text-secondary);
             }
         `;
         document.head.appendChild(style);
