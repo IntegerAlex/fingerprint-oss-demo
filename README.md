@@ -1,4 +1,4 @@
-S# Fingerprint OSS Demo
+# Fingerprint OSS Demo
 
 [![License: GPL-3.0](https://img.shields.io/badge/License-GPL--3.0-blue.svg)](https://opensource.org/licenses/GPL-3.0)
 [![Demo](https://img.shields.io/badge/Demo-Live-brightgreen.svg)](https://integeralex.github.io/fingerprint-oss-demo/)
