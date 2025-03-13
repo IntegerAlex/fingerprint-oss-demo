@@ -3,75 +3,166 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fingerprint OSS - User Info Logger</title>
+    <title>Fingerprint Demo - User Identity Solution</title>
     <link rel="stylesheet" href="./src/style.css">
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Add accessibility features -->
+    <meta name="description" content="A lightweight, privacy-focused user identity solution for web applications">
 </head>
 <body>
     <div class="container">
-        <!-- IP Address Banner -->
-        <div class="ip-banner">
-            <div class="ip-content">
-                <span class="ip-label">Your IP Address:</span>
-                <span id="client-ip">Loading...</span>
+        <!-- User-friendly top navigation -->
+        <nav class="top-nav">
+            <div class="logo-wrapper">
+                <img src="./public/goss.png" alt="Fingerprint Logo" class="brand-logo">
             </div>
-        </div>
-        
-        <header>
-            <div class="github-header">
-                <a href="https://github.com/IntegerAlex/fingerprint-oss" class="github-button" target="_blank">
+            <div class="nav-links">
+                <a href="#features" class="nav-link">Features</a>
+                <a href="#demo" class="nav-link">Live Demo</a>
+                <a href="#get-started" class="nav-link">Get Started</a>
+                <a href="./tos.html" class="nav-link">Privacy</a>
+            </div>
+            <div class="nav-actions">
+                <a href="https://github.com/IntegerAlex/fingerprint-oss" class="github-button" target="_blank" aria-label="View on GitHub">
                     <i class="fab fa-github github-icon"></i>
-                    View on GitHub
+                    GitHub
                 </a>
-                <div class="star-request">
-                    ⭐️ If you find this useful, please star our repo!
-                </div>
             </div>
-            <h1>Fingerprint OSS</h1>
-            <p class="description">A lightweight, privacy-focused user information logger for web applications</p>
+        </nav>
+        
+        <!-- Hero section with clear value proposition -->
+        <header class="hero">
+            <h1>Protect Your Web Application with User Identity</h1>
+            <p class="value-prop">A lightweight, privacy-focused solution that helps you identify users and prevent fraud while respecting privacy</p>
+            <div class="cta-buttons">
+                <a href="#demo" class="primary-cta">See It In Action</a>
+                <a href="#get-started" class="secondary-cta">Get Started</a>
+            </div>
         </header>
 
         <main>
-            <section class="installation-guide">
-                <h2>Quick Start</h2>
-                <div class="code-block">
-                    <pre><code>npm install fingerprint-oss</code></pre>
-                    <button class="copy-button" onclick="copyCode(this)">
-                        <i class="far fa-copy"></i>
-                    </button>
-                </div>
-                <div class="usage-example">
-                    <h3>Basic Usage</h3>
-                    <div class="code-block">
-                        <pre><code>const { userInfo } = require('fingerprint-oss');
-const data = userInfo();</code></pre>
-                        <button class="copy-button" onclick="copyCode(this)">
-                            <i class="far fa-copy"></i>
-                        </button>
+            <!-- Features section highlighting benefits to users -->
+            <section id="features" class="features-section">
+                <h2>Why Choose Our Solution</h2>
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <i class="fas fa-shield-alt feature-icon"></i>
+                        <h3>Privacy-First Approach</h3>
+                        <p>We collect only essential data with user consent, ensuring compliance with global privacy regulations.</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-tachometer-alt feature-icon"></i>
+                        <p>Lightweight implementation that won't slow down your application, ensuring a smooth user experience.</p>
+                        <h3>Optimized Performance</h3>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-code feature-icon"></i>
+                        <h3>Easy Integration</h3>
+                        <p>Simple API that integrates with your existing codebase in minutes, not days.</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-lock feature-icon"></i>
+                        <h3>Enhanced Security</h3>
+                        <p>Protect your users from account takeovers and fraudulent activities.</p>
                     </div>
                 </div>
             </section>
 
-            <section class="result-container">
-                <h2>Live Demo</h2>
-		<p>Currently, the GeoIp server is running on a 500MB server, which automatically shuts down after periods of inactivity. This causes delays of up to 50 seconds when it needs to start back up, making the response time slower. Any support or resources to improve the server would help speed up the process significantly.</p>
-                <pre id="result">Loading... we are actively working on to make results faster</pre>
+            <!-- Live demo section with improved context -->
+            <section id="demo" class="demo-section">
+                <h2>See Your Digital Identity</h2>
+                <p class="demo-explanation">Below is the information we can detect about your browser and device. This helps websites identify you without requiring personal information like email or phone number.</p>
+                
+                <div class="demo-container">
+                    <div class="demo-header">
+                        <span class="identity-label">Your Digital Fingerprint:</span>
+                        <div class="identity-actions">
+                            <button id="refresh-demo" class="action-button" aria-label="Refresh results">
+                                <i class="fas fa-sync-alt"></i> Refresh
+                            </button>
+                            <div class="ip-display">
+                                <span class="ip-label">Your IP:</span>
+                                <span id="client-ip">Loading...</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="results-wrapper">
+                        <pre id="result">Loading your information...</pre>
+                    </div>
+                    
+                    <div class="data-explanation">
+                        <p><i class="fas fa-info-circle"></i> This information is collected in a privacy-respecting manner. No personally identifiable information is stored.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Get started section with clear instructions -->
+            <section id="get-started" class="get-started-section">
+                <h2>Start Using Fingerprint Today</h2>
+                <div class="installation-steps">
+                    <div class="step">
+                        <span class="step-number">1</span>
+                        <h3>Install the Package</h3>
+                        <div class="code-block">
+                            <pre><code>npm install fingerprint-oss</code></pre>
+                            <button class="copy-button" onclick="copyCode(this)" aria-label="Copy code">
+                                <i class="far fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <span class="step-number">2</span>
+                        <h3>Implement in Your Code</h3>
+                        <div class="code-block">
+                            <pre><code>const { userInfo } = require('fingerprint-oss');
+const data = userInfo();</code></pre>
+                            <button class="copy-button" onclick="copyCode(this)" aria-label="Copy code">
+                                <i class="far fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <span class="step-number">3</span>
+                        <h3>Protect Your Application</h3>
+                        <p>Use the returned data to identify users, prevent fraud, and enhance security while maintaining privacy.</p>
+                        <a href="https://github.com/IntegerAlex/fingerprint-oss" class="documentation-link" target="_blank">View Documentation <i class="fas fa-external-link-alt"></i></a>
+                    </div>
+                </div>
             </section>
         </main>
 
         <footer>
             <div class="footer-content">
-                <div class="logo-container">
-                    <img src="./freejs.png" alt="FreeJS Logo" class="logo">
-                    <img src="./goss.png" alt="GOSS Logo" class="logo">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/d/db/Npm-logo.svg" alt="npm" class="logo">
+                <div class="footer-info">
+                    <img src="./public/goss.png" alt="Fingerprint Logo" class="footer-logo">
+                    <p>A lightweight, privacy-focused user identity solution</p>
                 </div>
+                
                 <div class="footer-links">
+                    <h4>Resources</h4>
+                    <a href="https://github.com/IntegerAlex/fingerprint-oss" target="_blank">Documentation</a>
                     <a href="https://github.com/IntegerAlex/fingerprint-oss/issues" target="_blank">Report Issues</a>
+                    <a href="./tos.html" target="_blank">Terms of Service</a>
                     <a href="https://github.com/IntegerAlex/fingerprint-oss/blob/main/LICENSE" target="_blank">License</a>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Connect</h4>
+                    <a href="https://github.com/IntegerAlex/fingerprint-oss" target="_blank">GitHub</a>
                     <a href="https://github.com/IntegerAlex/fingerprint-oss/blob/main/CONTRIBUTING.md" target="_blank">Contribute</a>
-		    <a href="./tos.html" target="_blank">Terms of Service</a>
+                    <a href="#" id="privacy-toggle">Privacy Settings</a>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2023 Fingerprint OSS. All rights reserved.</p>
+                <div class="tech-logos">
+                    <img src="./public/freejs.png" alt="FreeJS" class="tech-logo">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/d/db/Npm-logo.svg" alt="npm" class="tech-logo">
                 </div>
             </div>
         </footer>
@@ -98,6 +189,18 @@ const data = userInfo();</code></pre>
                 document.getElementById('client-ip').textContent = 'Error fetching IP';
                 console.error('Error fetching IP:', error);
             });
+            
+        // Add refresh functionality
+        document.getElementById('refresh-demo').addEventListener('click', function() {
+            document.getElementById('result').textContent = 'Refreshing...';
+            location.reload();
+        });
+        
+        // Privacy settings toggle (placeholder)
+        document.getElementById('privacy-toggle').addEventListener('click', function(e) {
+            e.preventDefault();
+            alert('Privacy settings would open here in a production environment.');
+        });
     </script>
     <script type="module" src="./src/main.js"></script>
 </body>
