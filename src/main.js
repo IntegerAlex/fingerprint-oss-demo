@@ -88,6 +88,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     'Proxy Detected': result.proxy ? 'Yes' : 'No'
                 },
                 icon: 'fas fa-network-wired'
+            },
+            'Uniqueness Score': {
+                data: {
+                    'Fingerprint Hash': result.fingerprint || generateFingerprint(result),
+                    'Estimated Uniqueness': calculateUniquenessScore(result)
+                },
+                icon: 'fas fa-fingerprint'
             }
         };
         
@@ -109,10 +116,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (value) {
                     const dataPoint = document.createElement('div');
                     dataPoint.className = 'data-point';
-                    dataPoint.innerHTML = `
-                        <span class="data-label">${key}:</span>
-                        <span class="data-value">${value}</span>
-                    `;
+                    
+                    // Add tooltip for certain fields
+                    if (key === 'Estimated Uniqueness' || key === 'Fingerprint Hash') {
+                        dataPoint.classList.add('tooltip');
+                        dataPoint.innerHTML = `
+                            <span class="data-label">${key}:</span>
+                            <span class="data-value">${value}</span>
+                            <span class="tooltip-text">${getTooltipForField(key)}</span>
+                        `;
+                    } else {
+                        dataPoint.innerHTML = `
+                            <span class="data-label">${key}:</span>
+                            <span class="data-value">${value}</span>
+                        `;
+                    }
+                    
                     content.appendChild(dataPoint);
                 }
             });
@@ -154,6 +173,63 @@ document.addEventListener('DOMContentLoaded', () => {
         addDisplayStyles();
     }
     
+    // Generate a fingerprint hash if not provided
+    function generateFingerprint(data) {
+        // Simple hash function for demo purposes
+        const str = JSON.stringify(data);
+        let hash = 0;
+        
+        for (let i = 0; i < str.length; i++) {
+            const char = str.charCodeAt(i);
+            hash = ((hash << 5) - hash) + char;
+            hash = hash & hash; // Convert to 32bit integer
+        }
+        
+        // Convert to hex format
+        return Math.abs(hash).toString(16).slice(0, 8);
+    }
+    
+    // Calculate uniqueness score for display
+    function calculateUniquenessScore(data) {
+        // This is a simplified calculation for demo purposes
+        // In a real implementation, this would compare against a database
+        
+        // Count number of significant data points we can collect
+        const dataPoints = [
+            data.browser?.name, 
+            data.browser?.version,
+            data.os?.name,
+            data.os?.version, 
+            data.timezone,
+            window.screen.width + 'x' + window.screen.height,
+            window.screen.colorDepth,
+            navigator.language,
+            navigator.hardwareConcurrency
+        ].filter(Boolean).length;
+        
+        // Calculate a score based on available data points
+        const score = Math.min(Math.round((dataPoints / 10) * 100), 99);
+        
+        // Return in a readable format with emoji indicator
+        if (score > 80) {
+            return `High (${score}%) 🔒`;
+        } else if (score > 60) {
+            return `Medium (${score}%) 🔔`;
+        } else {
+            return `Low (${score}%) ⚠️`;
+        }
+    }
+    
+    // Get tooltip text for specific fields
+    function getTooltipForField(field) {
+        const tooltips = {
+            'Fingerprint Hash': 'A unique identifier generated from your device characteristics. This is not personally identifiable.',
+            'Estimated Uniqueness': 'How distinguishable your browser fingerprint is compared to others. Higher uniqueness means better identification accuracy.'
+        };
+        
+        return tooltips[field] || '';
+    }
+    
     // Add styles for better data display
     function addDisplayStyles() {
         const style = document.createElement('style');
@@ -169,6 +245,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 border-radius: var(--border-radius-md);
                 overflow: hidden;
                 box-shadow: var(--card-shadow);
+                transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+            }
+            
+            .fingerprint-section:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 8px 15px var(--shadow-color);
             }
             
             .section-header {
@@ -198,6 +280,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 justify-content: space-between;
                 padding: var(--spacing-xs) 0;
                 border-bottom: 1px dashed var(--border-color);
+                position: relative;
             }
             
             .data-label {
@@ -220,11 +303,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 display: flex;
                 align-items: center;
                 gap: var(--spacing-xs);
-                transition: background-color var(--transition-fast);
+                transition: background-color var(--transition-fast), transform var(--transition-fast);
             }
             
             .tech-details-toggle:hover {
                 background-color: var(--border-color);
+                transform: translateY(-2px);
             }
             
             .raw-json {
@@ -264,7 +348,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 height: 20px;
                 margin-left: 10px;
                 border: 3px solid rgba(0,0,0,0.1);
-                border-radius: 50%;
                 border-top-color: var(--primary-color);
                 animation: spin 1s ease-in-out infinite;
             }
