@@ -1,103 +1,452 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fingerprint OSS - User Info Logger</title>
+    <title>Fingerprint Demo - User Identity Solution</title>
     <link rel="stylesheet" href="./src/style.css">
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Add accessibility features -->
+    <meta name="description" content="A lightweight, privacy-focused user identity solution for web applications">
 </head>
 <body>
-    <div class="container">
-        <!-- IP Address Banner -->
-        <div class="ip-banner">
-            <div class="ip-content">
-                <span class="ip-label">Your IP Address:</span>
-                <span id="client-ip">Loading...</span>
-            </div>
-        </div>
-        
-        <header>
-            <div class="github-header">
-                <a href="https://github.com/IntegerAlex/fingerprint-oss" class="github-button" target="_blank">
-                    <i class="fab fa-github github-icon"></i>
-                    View on GitHub
-                </a>
-                <div class="star-request">
-                    ⭐️ If you find this useful, please star our repo!
+    <!-- Onboarding modal for first-time visitors -->
+    <div class="onboarding-modal" id="onboardingModal">
+        <div class="modal-content">
+            <button class="modal-close" id="closeModal">×</button>
+            <h2>Welcome to Fingerprint Demo!</h2>
+            <p>Let us show you around our user identity solution:</p>
+            
+            <div class="modal-steps">
+                <div class="modal-step" data-step="1">
+                    <div class="step-number">1</div>
+                    <div>
+                        <h3>See Your Digital Identity</h3>
+                        <p>Check out how websites can identify your device without requiring personal information.</p>
+                    </div>
+                </div>
+                
+                <div class="modal-step" data-step="2" style="display: none;">
+                    <div class="step-number">2</div>
+                    <div>
+                        <h3>Switch Between Light and Dark Mode</h3>
+                        <p>Use the sun/moon toggle in the top right to switch themes for comfortable viewing.</p>
+                    </div>
+                </div>
+                
+                <div class="modal-step" data-step="3" style="display: none;">
+                    <div class="step-number">3</div>
+                    <div>
+                        <h3>Install Our Solution</h3>
+                        <p>Integrate Fingerprint into your project with just a few lines of code.</p>
+                    </div>
                 </div>
             </div>
-            <h1>Fingerprint OSS</h1>
-            <p class="description">A lightweight, privacy-focused user information logger for web applications</p>
+            
+            <div class="modal-nav">
+                <button class="modal-button disabled" id="prevStep">Previous</button>
+                <button class="modal-button" id="nextStep">Next</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- User-friendly top navigation -->
+        <nav class="top-nav">
+            <div class="logo-wrapper">
+                <img src="./goss.png" alt="Fingerprint Logo" class="brand-logo">
+            </div>
+            <div class="nav-links">
+                <a href="#features" class="nav-link tooltip">
+                    Features
+                    <span class="tooltip-text">Explore what makes our solution unique</span>
+                </a>
+                <a href="#demo" class="nav-link tooltip">
+                    Live Demo
+                    <span class="tooltip-text">See your digital fingerprint in action</span>
+                </a>
+                <a href="#get-started" class="nav-link tooltip">
+                    Get Started
+                    <span class="tooltip-text">Learn how to integrate our solution</span>
+                </a>
+                <a href="./tos.html" class="nav-link tooltip">
+                    Privacy
+                    <span class="tooltip-text">Read our privacy policy</span>
+                </a>
+            </div>
+            <div class="nav-actions">
+                <!-- Star our repository widget -->
+                <a href="https://github.com/IntegerAlex/fingerprint-oss" class="github-star-widget" target="_blank" rel="noopener noreferrer" id="starButton" aria-label="Star on GitHub">
+                    <i class="fas fa-star"></i>
+                    Star Repository
+                    <span class="star-count" id="starCount"><i class="fas fa-spinner fa-spin"></i></span>
+                </a>
+                
+                <!-- Theme toggle button -->
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                    <i class="fas fa-sun"></i>
+                </button>
+                
+                <a href="https://github.com/IntegerAlex/fingerprint-oss" class="github-button" target="_blank" aria-label="View on GitHub">
+                    <i class="fab fa-github github-icon"></i>
+                    GitHub
+                </a>
+            </div>
+        </nav>
+        
+        <!-- Hero section with clear value proposition -->
+        <header class="hero">
+            <h1>Protect Your Web Application with User Identity</h1>
+            <p class="value-prop">A lightweight, privacy-focused solution that helps you identify users and prevent fraud while respecting privacy</p>
+            <div class="cta-buttons">
+                <a href="#demo" class="primary-cta">See It In Action</a>
+                <a href="#get-started" class="secondary-cta">Get Started</a>
+            </div>
         </header>
 
         <main>
-            <section class="installation-guide">
-                <h2>Quick Start</h2>
-                <div class="code-block">
-                    <pre><code>npm install fingerprint-oss</code></pre>
-                    <button class="copy-button" onclick="copyCode(this)">
-                        <i class="far fa-copy"></i>
-                    </button>
-                </div>
-                <div class="usage-example">
-                    <h3>Basic Usage</h3>
-                    <div class="code-block">
-                        <pre><code>const { userInfo } = require('fingerprint-oss');
-const data = userInfo();</code></pre>
-                        <button class="copy-button" onclick="copyCode(this)">
-                            <i class="far fa-copy"></i>
-                        </button>
+            <!-- Features section highlighting benefits to users -->
+            <section id="features" class="features-section">
+                <h2>Why Choose Our Solution</h2>
+                <div class="feature-grid">
+                    <!-- <div class="feature-card">
+                        <i class="fas fa-shield-alt feature-icon"></i>
+                        <h3>Privacy-First Approach</h3>
+                        <p>We collect only essential data with user consent, ensuring compliance with global privacy regulations.</p>
+		    </div> -->
+                    <div class="feature-card">
+                        <i class="fas fa-tachometer-alt feature-icon"></i>
+                        <h3>Optimized Performance</h3>
+                        <p>Lightweight implementation that won't slow down your application, ensuring a smooth user experience.</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-code feature-icon"></i>
+                        <h3>Easy Integration</h3>
+                        <p>Simple API that integrates with your existing codebase in minutes, not days.</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-lock feature-icon"></i>
+                        <h3>Enhanced Security</h3>
+                        <p>Protect your users from account takeovers and fraudulent activities.</p>
                     </div>
                 </div>
             </section>
 
-            <section class="result-container">
-                <h2>Live Demo</h2>
-		<p>Currently, the GeoIp server is running on a 500MB server, which automatically shuts down after periods of inactivity. This causes delays of up to 50 seconds when it needs to start back up, making the response time slower. Any support or resources to improve the server would help speed up the process significantly.</p>
-                <pre id="result">Loading... we are actively working on to make results faster</pre>
+            <!-- Live demo section with improved context -->
+            <section id="demo" class="demo-section">
+                <h2>See Your Digital Identity</h2>
+                <p class="demo-explanation">Below is the information we can detect about your browser and device. This helps websites identify you without requiring personal information like email or phone number.</p>
+                
+                <div class="demo-container">
+                    <div class="demo-header">
+                        <span class="identity-label">Your Digital Fingerprint:</span>
+                        <div class="identity-actions">
+                            <button id="refresh-demo" class="action-button" aria-label="Refresh results">
+                                <i class="fas fa-sync-alt"></i> Refresh
+                            </button>
+                            <div class="ip-display">
+                                <span class="ip-label">Your IP:</span>
+                                <span id="client-ip">Loading from userInfo()...</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="results-wrapper">
+                        <pre id="result">Loading your information...</pre>
+                    </div>
+                    
+                    <div class="data-explanation">
+                        <p><i class="fas fa-info-circle"></i> This information is collected in a privacy-respecting manner. No personally identifiable information is stored.</p>
+                        <div class="confidence-explanation" id="confidence-bar" style="display: none;">
+                            <p><strong>Confidence Rating:</strong> <span id="confidence-text">Analyzing...</span></p>
+                            <div class="confidence-bar-container">
+                                <div class="confidence-bar" id="confidence-bar-fill"></div>
+                            </div>
+                            <p class="confidence-note">Higher confidence means more accurate identification without personal data.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Sponsors section -->
+            <section id="sponsors" class="sponsors-section">
+                <h2>Our Sponsors</h2>
+                <p>These organizations and individuals help make Fingerprint OSS possible. Thank you!</p>
+                
+                <div class="sponsors-container">
+                    <div class="sponsor-item">
+                        <img src="https://via.placeholder.com/100?text=Sponsor1" alt="Sponsor 1" class="sponsor-logo">
+                        <span class="sponsor-name">Cloud Services Inc</span>
+                    </div>
+                    <div class="sponsor-item">
+                        <img src="https://via.placeholder.com/100?text=Sponsor2" alt="Sponsor 2" class="sponsor-logo">
+                        <span class="sponsor-name">Security Partners</span>
+                    </div>
+                    <div class="sponsor-item">
+                        <img src="https://via.placeholder.com/100?text=Sponsor3" alt="Sponsor 3" class="sponsor-logo easter-egg-trigger" id="easterEggTrigger">
+                        <span class="sponsor-name">Tech Innovators</span>
+                    </div>
+                </div>
+                
+                <button class="sponsor-button" id="sponsorButton">
+                    <i class="fas fa-heart"></i> Become a Sponsor
+                </button>
+            </section>
+
+            <!-- Get started section with clear instructions -->
+            <section id="get-started" class="get-started-section">
+                <h2>Start Using Fingerprint Today</h2>
+                <div class="installation-steps">
+                    <div class="step">
+                        <span class="step-number">1</span>
+                        <h3>Install the Package</h3>
+                        <div class="code-block">
+                            <pre><code>npm install fingerprint-oss</code></pre>
+                            <button class="copy-button" onclick="copyCode(this)" aria-label="Copy code">
+                                <i class="far fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <span class="step-number">2</span>
+                        <h3>Implement in Your Code</h3>
+                        <div class="code-block">
+                            <pre><code>const { userInfo } = require('fingerprint-oss');
+const data = userInfo();</code></pre>
+                            <button class="copy-button" onclick="copyCode(this)" aria-label="Copy code">
+                                <i class="far fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <span class="step-number">3</span>
+                        <h3>Protect Your Application</h3>
+                        <p>Use the returned data to identify users, prevent fraud, and enhance security while maintaining privacy.</p>
+                        <a href="https://github.com/IntegerAlex/fingerprint-oss" class="documentation-link" target="_blank">View Documentation <i class="fas fa-external-link-alt"></i></a>
+                    </div>
+                </div>
             </section>
         </main>
 
         <footer>
             <div class="footer-content">
-                <div class="logo-container">
-                    <img src="./freejs.png" alt="FreeJS Logo" class="logo">
-                    <img src="./goss.png" alt="GOSS Logo" class="logo">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/d/db/Npm-logo.svg" alt="npm" class="logo">
+                <div class="footer-info">
+                    <img src="./goss.png" alt="Fingerprint Logo" class="footer-logo">
+                    <p>A lightweight, privacy-focused user identity solution</p>
                 </div>
+                
                 <div class="footer-links">
+                    <h4>Resources</h4>
+                    <a href="https://github.com/IntegerAlex/fingerprint-oss" target="_blank">Documentation</a>
                     <a href="https://github.com/IntegerAlex/fingerprint-oss/issues" target="_blank">Report Issues</a>
+                    <a href="./tos.html" target="_blank">Terms of Service</a>
                     <a href="https://github.com/IntegerAlex/fingerprint-oss/blob/main/LICENSE" target="_blank">License</a>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Connect</h4>
+                    <a href="https://github.com/IntegerAlex/fingerprint-oss" target="_blank">GitHub</a>
                     <a href="https://github.com/IntegerAlex/fingerprint-oss/blob/main/CONTRIBUTING.md" target="_blank">Contribute</a>
-		    <a href="./tos.html" target="_blank">Terms of Service</a>
+                    <a href="#" id="privacy-toggle">Privacy Settings</a>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2025 Fingerprint OSS. All rights reserved.</p>
+                <div class="tech-logos">
+                    <img src="./freejs.png" alt="FreeJS" class="tech-logo">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/d/db/Npm-logo.svg" alt="npm" class="tech-logo">
                 </div>
             </div>
         </footer>
     </div>
 
     <script>
-        function copyCode(button) {
-            const codeBlock = button.parentElement.querySelector('code');
-            navigator.clipboard.writeText(codeBlock.textContent);
+        // Theme switcher functionality
+        document.addEventListener('DOMContentLoaded', () => {
+            const themeToggle = document.getElementById('themeToggle');
+            const htmlElement = document.documentElement;
             
-            button.innerHTML = '<i class="fas fa-check"></i>';
-            setTimeout(() => {
-                button.innerHTML = '<i class="far fa-copy"></i>';
-            }, 2000);
+            // Function to set theme
+            function setTheme(theme) {
+                htmlElement.setAttribute('data-theme', theme);
+                localStorage.setItem('theme', theme);
+                
+                // Update icon
+                if (theme === 'dark') {
+                    themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+                } else {
+                    themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+                }
+            }
+            
+            // Check for saved theme preference or use system preference
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                setTheme(savedTheme);
+            } else {
+                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                setTheme(prefersDark ? 'dark' : 'light');
+            }
+            
+            // Toggle theme on button click
+            themeToggle.addEventListener('click', () => {
+                const currentTheme = htmlElement.getAttribute('data-theme');
+                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                setTheme(newTheme);
+            });
+            
+            // Listen for system theme changes
+            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+                if (!localStorage.getItem('theme')) {
+                    setTheme(e.matches ? 'dark' : 'light');
+                }
+            });
+        });
+        
+        // GitHub star count
+        async function fetchStarCount() {
+            try {
+                const response = await fetch('https://api.github.com/repos/IntegerAlex/fingerprint-oss');
+                if (!response.ok) {
+                    throw new Error(`GitHub API request failed with status: ${response.status}`);
+                }
+                const data = await response.json();
+                const starCount = document.getElementById('starCount');
+                
+                if (data.stargazers_count !== undefined) {
+                    starCount.innerHTML = data.stargazers_count;
+                    
+                    // Add click event to animate star count when clicked
+                    document.getElementById('starButton').addEventListener('click', () => {
+                        starCount.classList.add('pulse-animation');
+                        setTimeout(() => {
+                            starCount.classList.remove('pulse-animation');
+                        }, 1000);
+                    });
+                } else {
+                    starCount.innerHTML = '★';
+                }
+            } catch (error) {
+                console.error('Error fetching star count:', error);
+                document.getElementById('starCount').innerHTML = '★';
+                // Consider adding a small notification about API limits if appropriate
+                if (error.message && error.message.includes('429')) {
+                    console.warn('GitHub API rate limit exceeded. Try again later.');
+                }
+            }
         }
         
-        // Fetch and display the client's IP address
-        fetch('https://api.ipify.org?format=json')
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById('client-ip').textContent = data.ip;
-            })
-            .catch(error => {
-                document.getElementById('client-ip').textContent = 'Error fetching IP';
-                console.error('Error fetching IP:', error);
+        fetchStarCount();
+        
+        // Sponsor button functionality
+        document.getElementById('sponsorButton').addEventListener('click', () => {
+            window.open('https://github.com/sponsors/IntegerAlex', '_blank');
+        });
+        
+        // Onboarding modal functionality
+        document.addEventListener('DOMContentLoaded', () => {
+            const modal = document.getElementById('onboardingModal');
+            const closeBtn = document.getElementById('closeModal');
+            const nextBtn = document.getElementById('nextStep');
+            const prevBtn = document.getElementById('prevStep');
+            const steps = document.querySelectorAll('.modal-step');
+            let currentStep = 1;
+            
+            // Check if user is first time visitor
+            const hasVisitedBefore = localStorage.getItem('hasVisitedBefore');
+            
+            if (!hasVisitedBefore) {
+                modal.style.display = 'flex';
+                localStorage.setItem('hasVisitedBefore', 'true');
+            }
+            
+            // Close modal
+            closeBtn.addEventListener('click', () => {
+                modal.style.display = 'none';
             });
+            
+            // Next step
+            nextBtn.addEventListener('click', () => {
+                if (currentStep < steps.length) {
+                    document.querySelector(`[data-step="${currentStep}"]`).style.display = 'none';
+                    currentStep++;
+                    document.querySelector(`[data-step="${currentStep}"]`).style.display = 'flex';
+                    
+                    // Enable/disable buttons
+                    prevBtn.classList.remove('disabled');
+                    if (currentStep === steps.length) {
+                        nextBtn.innerHTML = 'Finish';
+                    }
+                } else {
+                    modal.style.display = 'none';
+                }
+            });
+            
+            // Previous step
+            prevBtn.addEventListener('click', () => {
+                if (currentStep > 1 && !prevBtn.classList.contains('disabled')) {
+                    document.querySelector(`[data-step="${currentStep}"]`).style.display = 'none';
+                    currentStep--;
+                    document.querySelector(`[data-step="${currentStep}"]`).style.display = 'flex';
+                    
+                    // Enable/disable buttons
+                    if (currentStep === 1) {
+                        prevBtn.classList.add('disabled');
+                    }
+                    nextBtn.innerHTML = 'Next';
+                }
+            });
+            
+            // Close if clicked outside
+            window.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+        });
+        
+        function copyCode(button) {
+            const codeBlock = button.parentElement.querySelector('code');
+            navigator.clipboard.writeText(codeBlock.textContent)
+                .then(() => {
+                    // Success feedback
+                    button.innerHTML = '<i class="fas fa-check"></i>';
+                    setTimeout(() => {
+                        button.innerHTML = '<i class="far fa-copy"></i>';
+                    }, 2000);
+                })
+                .catch(err => {
+                    // Error feedback
+                    console.error('Copy failed:', err);
+                    button.innerHTML = '<i class="fas fa-times"></i>';
+                    setTimeout(() => {
+                        button.innerHTML = '<i class="far fa-copy"></i>';
+                    }, 2000);
+                    
+                    // Optionally show a tooltip or message to the user
+                    alert('Copy failed. Please try selecting and copying manually.');
+                });
+        }
+        
+        // Remove the separate fetch for IP address since we get it from userInfo()
+        // Set a placeholder value for IP until the actual data loads
+        document.getElementById('client-ip').textContent = 'Loading from userInfo()...';
+            
+        // Add refresh functionality
+        document.getElementById('refresh-demo').addEventListener('click', function() {
+            document.getElementById('result').textContent = 'Refreshing your digital fingerprint...';
+            runTest();
+        });
+        
+        // Privacy settings toggle (placeholder)
+        document.getElementById('privacy-toggle').addEventListener('click', function(e) {
+            e.preventDefault();
+            alert('Privacy settings would open here in a production environment.');
+        });
     </script>
     <script type="module" src="./src/main.js"></script>
 </body>
