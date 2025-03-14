@@ -347,30 +347,6 @@ const data = userInfo();</code></pre>
             window.open('https://github.com/sponsors/IntegerAlex', '_blank');
         });
         
-        // Easter egg functionality
-        document.getElementById('easterEggTrigger').addEventListener('click', () => {
-            // Create fingerprint emojis floating around
-            const emojis = ['🔒', '👆', '🛡️', '🔐', '🔍'];
-            
-            for (let i = 0; i < 10; i++) {
-                const emoji = document.createElement('div');
-                emoji.className = 'easter-egg-animation';
-                emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-                emoji.style.fontSize = `${Math.random() * 20 + 20}px`;
-                emoji.style.top = `${Math.random() * window.innerHeight}px`;
-                emoji.style.left = `${Math.random() * window.innerWidth}px`;
-                emoji.style.animationDuration = `${Math.random() * 5 + 5}s`;
-                emoji.style.animationDelay = `${Math.random() * 2}s`;
-                
-                document.body.appendChild(emoji);
-                
-                // Remove after animation
-                setTimeout(() => {
-                    emoji.remove();
-                }, 10000);
-            }
-        });
-        
         // Onboarding modal functionality
         document.addEventListener('DOMContentLoaded', () => {
             const modal = document.getElementById('onboardingModal');

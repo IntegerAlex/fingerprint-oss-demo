@@ -278,8 +278,6 @@ button {
   display: inline-flex;
   align-items: center;
   gap: var(--spacing-xs);
-  background-color: var(--text-primary);
-  color: white;
   padding: var(--spacing-xs) var(--spacing-sm);
   border-radius: var(--border-radius-md);
   font-size: var(--font-size-sm);
