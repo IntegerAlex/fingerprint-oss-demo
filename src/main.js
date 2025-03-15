@@ -138,7 +138,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         'Not Available',
                     'Color Depth': result.systemInfo?.colorDepth ? `${result.systemInfo.colorDepth} bits` : 'Not Available',
                     'CPU Cores': result.systemInfo?.hardwareConcurrency || 'Not Available',
-                    'Device Memory': result.systemInfo?.deviceMemory ? `${result.systemInfo.deviceMemory} GB` : 'Not Available',
+                    'Available Memory (est. RAM available)': result.systemInfo?.deviceMemory ? `${result.systemInfo.deviceMemory} GB` : 'Not Available',
                     'Touch Support': result.systemInfo?.touchSupport?.maxTouchPoints > 0 ? 'Yes' : 'No',
                     'GPU Vendor': result.systemInfo?.webGL?.vendor || 'Not Available',
                     'GPU Renderer': result.systemInfo?.webGL?.renderer || 'Not Available'
