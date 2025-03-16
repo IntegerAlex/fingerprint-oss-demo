@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "detectincognitojs": "^1.3.7",
-    "fingerprint-oss": "^0.2.3-alpha"
+    "fingerprint-oss": "^0.2.3-beta"
   },
   "description": "Demo application for the Fingerprint OSS library",
   "author": "IntegerAlex",
