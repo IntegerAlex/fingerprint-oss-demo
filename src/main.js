@@ -2,7 +2,7 @@ import './style.css'
 import { userInfo } from 'fingerprint-oss';
 // Importing function from local file 
 // Note: This is just for testing purpose, in real world scenario you should import from 'fingerprint-oss'
-//import { userInfo } from '../../dist/index.esm.js';
+//import { userInfo } from '../../fingerprint-oss/dist/index.esm.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     const resultElement = document.getElementById('result');
@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             // Get user information with a timeout to handle slow server responses
             const result = await Promise.race([
-                userInfo(),
+                userInfo({transparency: true, message:'The application is gathering your digital fingerprint...'}),
                 new Promise((_, reject) => 
                     setTimeout(() => reject(new Error('Request took too long. The server might be starting up.')), 15000)
                 )
