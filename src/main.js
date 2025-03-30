@@ -79,7 +79,17 @@ document.addEventListener('DOMContentLoaded', () => {
        	if(result.hash){
 		const hashElement = document.getElementById('client-hash');	
 		if(hashElement){
-			hashElement.textContent = `Unique Client Id ${result.hash.substring(0, 15)}`;
+			localStorage.setItem('client-hash', result.hash.substring(0, 15));
+			if(localStorage.getItem('visit-count')){
+				let count = parseInt(localStorage.getItem('visit-count'));
+				count += 1;
+				localStorage.setItem('visit-count', count);
+				hashElement.textContent = `Unique Client Id ${result.hash.substring(0, 15)}  Visit Count ${count}`;
+			}
+			else{
+			localStorage.setItem('visit-count', 1);
+			hashElement.textContent = `Unique Client Id ${result.hash.substring(0, 15)} Visit Count 1`;
+			}
 		}
 	} 
         // If we have an IP address from geolocation, update the display
