@@ -76,7 +76,12 @@ document.addEventListener('DOMContentLoaded', () => {
         // Create a container for the formatted result
         const container = document.createElement('div');
         container.className = 'fingerprint-result';
-        
+       	if(result.hash){
+		const hashElement = document.getElementById('client-hash');	
+		if(hashElement){
+			hashElement.textContent = `Unique Client Id ${result.hash.substring(0, 15)}`;
+		}
+	} 
         // If we have an IP address from geolocation, update the display
         if (result.geolocation?.ip) {
             const ipElement = document.getElementById('client-ip');
