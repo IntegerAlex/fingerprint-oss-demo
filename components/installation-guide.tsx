@@ -30,7 +30,7 @@ export default function InstallationGuide() {
           <TabsContent value="npm">
             <div className="bg-lavender-900 text-white p-4 rounded-md relative">
               <pre className="font-mono text-sm overflow-x-auto">
-                <code>npm install fingerprint-oss</code>
+                <code>npm install fingerprint-oss@latest</code>
               </pre>
               <Button
                 variant="ghost"
