@@ -65,7 +65,7 @@ export default function InstallationGuide() {
           <h3 className="text-xl font-semibold text-lavender-900 mb-4">Usage Example</h3>
           <div className="bg-lavender-900 text-white p-4 rounded-md relative">
             <pre className="font-mono text-sm overflow-x-auto">
-              <code>{`const { userInfo } = require('fingerprint-oss');
+              <code>{`const  userInfo  = require('fingerprint-oss');
 
 const data = await userInfo();
 console.log(data); // Contains visitor ID, device info, and more`}</code>
@@ -75,7 +75,7 @@ console.log(data); // Contains visitor ID, device info, and more`}</code>
               size="icon"
               className="absolute top-2 right-2 text-lavender-300 hover:text-white hover:bg-lavender-800"
               onClick={() =>
-                copyToClipboard(`const { userInfo } = require('fingerprint-oss');
+                copyToClipboard(`const  userInfo  = require('fingerprint-oss');
 
 const fetchFingerprintData = async () => {
   const data = await userInfo();
