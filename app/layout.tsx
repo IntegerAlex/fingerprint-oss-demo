@@ -1,14 +1,18 @@
-import type { Metadata, Viewport } from "next"
-import "./globals.css"
+import type { Metadata, Viewport } from "next";
+import { Inter } from "next/font/google";
+import "./globals.css";
 
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Fingerprint OSS Demo",
-  description: "A demonstration of the fingerprint-oss npm package capabilities. Free and open-source browser fingerprinting.",
+  description:
+    "A demonstration of the fingerprint-oss npm package capabilities. Free and open-source browser fingerprinting.",
   metadataBase: new URL("https://fingerprint-oss-demo.vercel.app"),
   openGraph: {
     title: "Fingerprint OSS Demo",
-    description: "Free and open-source browser fingerprinting library for identifying unique visitors.",
+    description:
+      "Free and open-source browser fingerprinting library for identifying unique visitors.",
     url: "https://fingerprint-oss-demo.vercel.app",
     siteName: "Fingerprint OSS",
     images: [
@@ -44,25 +48,26 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Global Open Source Softwares (GOSS)" }],
   generator: "Next.js",
-}
+};
 
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#ffffff",
-}
+  themeColor: "#09090b",
+};
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body >
+    <html lang="en" className="dark">
+      <body
+        className={`bg-background text-foreground font-sans ${inter.className}`}
+      >
         {children}
       </body>
     </html>
-  )
+  );
 }
-
