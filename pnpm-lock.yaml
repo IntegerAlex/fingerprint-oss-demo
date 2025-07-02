@@ -111,8 +111,8 @@ importers:
         specifier: 8.5.1
         version: 8.5.1(react@19.1.0)
       fingerprint-oss:
-        specifier: 0.2.5-alpha
-        version: 0.2.5-alpha
+        specifier: 0.9.0
+        version: 0.9.0
       input-otp:
         specifier: 1.4.1
         version: 1.4.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
@@ -1338,8 +1338,9 @@ packages:
     resolution: {integrity: sha512-YsGpe3WHLK8ZYi4tWDg2Jy3ebRz2rXowDxnld4bkQB00cc/1Zw9AWnC0i9ztDJitivtQvaI9KaLyKrc+hBW0yg==}
     engines: {node: '>=8'}
 
-  fingerprint-oss@0.2.5-alpha:
-    resolution: {integrity: sha512-/xehbMnnqX+UDlZ+pcL/xFWBKb20n1o6DSMopEny3Oj9WUeBsHSHPgFa+O+BxlioCCT4qCsfPOCSMIa98dPHTA==}
+  fingerprint-oss@0.9.0:
+    resolution: {integrity: sha512-0tQZfp9RjEFw0JtT84n0QJF2rk0pcHHEhdIE0SX3dyZgBsKthoyr0itTa56gZNj+/UyO0UA0gaArBq2P4fwMzw==}
+    engines: {node: '>=16.0.0'}
 
   foreground-child@3.3.1:
     resolution: {integrity: sha512-gIXjKqtFuWEgzFRJA9WCQeSJLZDjgJUOMCMzxtvFq/37KojM1BFGufqsCy0r4qSQmYLsZYMeyRqzIWOMup03sw==}
@@ -3027,7 +3028,7 @@ snapshots:
     dependencies:
       to-regex-range: 5.0.1
 
-  fingerprint-oss@0.2.5-alpha:
+  fingerprint-oss@0.9.0:
     dependencies:
       hash-wasm: 4.12.0
 
