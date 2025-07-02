@@ -34,14 +34,17 @@ const InfoCard = ({
   icon: Icon,
   className = "",
   copyable = false,
+  description,
 }: {
   title: string;
   value: string | number;
   icon: React.ElementType;
   className?: string;
   copyable?: boolean;
+  description?: string;
 }) => {
   const [copied, setCopied] = useState(false);
+  const [showTooltip, setShowTooltip] = useState(false);
 
   const handleCopy = () => {
     if (copyable) {
@@ -53,7 +56,9 @@ const InfoCard = ({
 
   return (
     <div
-      className={`bg-secondary/50 hover:bg-secondary transition-all duration-300 p-4 rounded-lg border border-border/50 hover:border-primary/20 group ${className}`}
+      className={`bg-secondary/50 hover:bg-secondary transition-all duration-300 p-4 rounded-lg border border-border/50 hover:border-primary/20 group relative ${className}`}
+      onMouseEnter={() => setShowTooltip(true)}
+      onMouseLeave={() => setShowTooltip(false)}
     >
       <div className="flex items-center justify-between text-muted-foreground mb-2">
         <div className="flex items-center">
@@ -73,6 +78,14 @@ const InfoCard = ({
         {value}
       </p>
       {copied && <p className="text-xs text-green-400 mt-1">Copied!</p>}
+      
+      {/* Tooltip */}
+      {description && showTooltip && (
+        <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-popover border border-border rounded-lg shadow-lg text-xs text-popover-foreground max-w-64 z-50 animate-in fade-in duration-200">
+          <div className="text-center">{description}</div>
+          <div className="absolute top-full left-1/2 transform -translate-x-1/2 border-4 border-transparent border-t-border"></div>
+        </div>
+      )}
     </div>
   );
 };
@@ -201,12 +214,23 @@ export default function FingerprintDisplay({
               </h3>
             </div>
             <div className="space-y-3">
-              <InfoCard title="Device Type" value={deviceType} icon={Monitor} />
-              <InfoCard title="Browser" value={browserName} icon={Globe} />
+              <InfoCard 
+                title="Device Type" 
+                value={deviceType} 
+                icon={Monitor} 
+                description="Detected device category based on touch support and screen characteristics"
+              />
+              <InfoCard 
+                title="Browser" 
+                value={browserName} 
+                icon={Globe} 
+                description="Browser name and version extracted from user agent string"
+              />
               <InfoCard
                 title="Operating System"
                 value={`${os} ${osVersion}`}
                 icon={Cpu}
+                description="Operating system name and version detected from browser fingerprint"
               />
             </div>
           </Card>
@@ -219,12 +243,24 @@ export default function FingerprintDisplay({
               </h3>
             </div>
             <div className="space-y-3">
-              <InfoCard title="IP Address" value={ip} icon={Info} copyable />
-              <InfoCard title="Country" value={country} icon={Globe} />
+              <InfoCard 
+                title="IP Address" 
+                value={ip} 
+                icon={Info} 
+                copyable 
+                description="Public IP address detected from the network connection"
+              />
+              <InfoCard 
+                title="Country" 
+                value={country} 
+                icon={Globe} 
+                description="Country location determined from IP geolocation services"
+              />
               <InfoCard
                 title="City"
                 value={city || "Not Available"}
                 icon={MapPin}
+                description="City location approximated from IP address (may not be accurate)"
               />
             </div>
           </Card>
@@ -277,6 +313,7 @@ export default function FingerprintDisplay({
                 title="Anonymous"
                 value={geolocation?.traits?.isAnonymous ? "Yes" : "No"}
                 icon={Shield}
+                description="Whether the connection appears to be anonymized through various methods"
               />
               <InfoCard
                 title="Proxy Detection"
@@ -286,6 +323,7 @@ export default function FingerprintDisplay({
                     : "Not Detected"
                 }
                 icon={EyeOff}
+                description="Detection of anonymous proxy servers or similar anonymization services"
               />
             </div>
           </div>
@@ -307,11 +345,13 @@ export default function FingerprintDisplay({
               value={systemInfo?.userAgent || "Unknown"}
               icon={Info}
               copyable
+              description="Complete user agent string sent by the browser containing browser and OS info"
             />
             <InfoCard
               title="Platform"
               value={systemInfo?.platform || "Unknown"}
               icon={Layers}
+              description="Operating system platform identifier as reported by the browser"
             />
             <InfoCard
               title="Screen Resolution"
@@ -321,26 +361,31 @@ export default function FingerprintDisplay({
                   : "Unknown"
               }
               icon={Monitor}
+              description="Display screen resolution in pixels (width × height)"
             />
             <InfoCard
               title="Color Depth"
               value={`${systemInfo?.colorDepth || "Unknown"} bit`}
               icon={Layers}
+              description="Number of bits used to represent colors on the display"
             />
             <InfoCard
               title="CPU Cores"
               value={systemInfo?.hardwareConcurrency || "Unknown"}
               icon={Cpu}
+              description="Number of logical processors available for parallel processing"
             />
             <InfoCard
               title="Device Memory"
               value={`${systemInfo?.deviceMemory || "Unknown"} GB`}
               icon={Cpu}
+              description="Approximate amount of device RAM in gigabytes"
             />
             <InfoCard
               title="Timezone"
               value={systemInfo?.timezone || "Unknown"}
               icon={Globe}
+              description="Local timezone identifier based on system settings"
             />
             <InfoCard
               title="Language"
@@ -348,6 +393,7 @@ export default function FingerprintDisplay({
                 systemInfo?.languages ? systemInfo.languages[0] : "Unknown"
               }
               icon={Globe}
+              description="Primary language preference set in the browser"
             />
             <InfoCard
               title="Touch Support"
@@ -355,16 +401,19 @@ export default function FingerprintDisplay({
                 systemInfo?.touchSupport?.maxTouchPoints > 0 ? "Yes" : "No"
               }
               icon={Fingerprint}
+              description="Whether the device supports touch input (indicates mobile/tablet)"
             />
             <InfoCard
               title="Cookies Enabled"
               value={systemInfo?.cookiesEnabled ? "Yes" : "No"}
               icon={Check}
+              description="Whether HTTP cookies are enabled in the browser"
             />
             <InfoCard
               title="Incognito Mode"
               value={systemInfo?.incognito?.isPrivate ? "Yes" : "No"}
               icon={systemInfo?.incognito?.isPrivate ? EyeOff : Eye}
+              description="Detection of private/incognito browsing mode usage"
             />
             <InfoCard
               title="Ad Blocker"
@@ -372,6 +421,7 @@ export default function FingerprintDisplay({
                 systemInfo?.adBlocker?.adBlocker ? "Detected" : "Not Detected"
               }
               icon={Shield}
+              description="Detection of ad blocking software or browser extensions"
             />
           </div>
         </Card>
@@ -392,62 +442,74 @@ export default function FingerprintDisplay({
               value={geolocation?.ip || "Unknown"}
               icon={Info}
               copyable
+              description="Public IP address from which the request originated"
             />
             <InfoCard
               title="Country"
               value={`${geolocation?.country?.name || "Unknown"} (${geolocation?.country?.isoCode || "N/A"})`}
               icon={Globe}
+              description="Country determined from IP geolocation with ISO country code"
             />
             <InfoCard
               title="Region"
               value={`${geolocation?.region?.name || "Unknown"} (${geolocation?.region?.isoCode || "N/A"})`}
               icon={MapPin}
+              description="State or region within the country with subdivision code"
             />
             <InfoCard
               title="City"
               value={geolocation?.city || "Unknown"}
               icon={MapPin}
+              description="City location estimated from IP address (accuracy varies)"
             />
             <InfoCard
               title="Continent"
               value={`${geolocation?.continent?.name || "Unknown"} (${geolocation?.continent?.code || "N/A"})`}
               icon={Globe}
+              description="Continent location with standard continent code"
             />
             <InfoCard
               title="Latitude"
               value={geolocation?.location?.latitude || "Unknown"}
               icon={MapPin}
+              description="Approximate latitude coordinate based on IP geolocation"
             />
             <InfoCard
               title="Longitude"
               value={geolocation?.location?.longitude || "Unknown"}
               icon={MapPin}
+              description="Approximate longitude coordinate based on IP geolocation"
             />
             <InfoCard
               title="Timezone"
               value={geolocation?.location?.timeZone || "Unknown"}
               icon={Globe}
+              description="Timezone identifier for the geographic location"
             />
             <InfoCard
               title="Network"
               value={geolocation?.traits?.network || "Unknown"}
               icon={Layers}
               copyable
+              description="Internet service provider or organization name for the IP range"
             />
             <InfoCard
               title="Anonymous"
               value={geolocation?.traits?.isAnonymous ? "Yes" : "No"}
               icon={Shield}
+              description="General anonymization detection across multiple methods"
             />
             <InfoCard
               title="Anonymous VPN"
               value={geolocation?.traits?.isAnonymousVpn ? "Yes" : "No"}
               icon={EyeOff}
+              description="Specific detection of anonymous VPN service usage"
             />
             <InfoCard
               title="Anonymous Proxy"
               value={geolocation?.traits?.isAnonymousProxy ? "Yes" : "No"}
               icon={EyeOff}
+              description="Detection of anonymous proxy servers or similar services"
             />
           </div>
         </Card>
