@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import userInfo from "fingerprint-oss";
 import { Loader2 } from "lucide-react";
 import Navbar from "@/components/navbar";
@@ -14,14 +14,14 @@ export default function Home() {
   const [error, setError] = useState<string | null>(null);
   const [visitCount, setVisitCount] = useState(1);
 
-  useEffect(() => {
-    const fetchFingerprintData = async () => {
-      try {
-        setLoading(true);
-        const data = await userInfo({
-          transparency: true,
-          message: "Data is being collected for demo purposes.",
-        });
+  // Memoized fingerprint fetching function
+  const fetchFingerprintData = useCallback(async () => {
+    try {
+      setLoading(true);
+      const data = await userInfo({
+        transparency: true,
+        message: "Data is being collected for demo purposes.",
+      });
 
         if (typeof window !== "undefined" && data.hash) {
           const storedHash = localStorage.getItem("fingerprint_visitor_hash");
@@ -192,10 +192,21 @@ export default function Home() {
       } finally {
         setLoading(false);
       }
-    };
+    }, []); // Empty dependency array for useCallback
 
-    fetchFingerprintData();
-  }, []);
+    useEffect(() => {
+      fetchFingerprintData();
+    }, [fetchFingerprintData]);
+
+    // Memoized loading spinner for better performance
+    const LoadingSpinner = useMemo(() => (
+      <div className="flex flex-col justify-center items-center h-64">
+        <Loader2 className="h-16 w-16 animate-spin text-primary" />
+        <span className="mt-4 text-muted-foreground text-lg">
+          Generating your unique browser fingerprint...
+        </span>
+      </div>
+    ), []);
 
   return (
     <div className="min-h-screen">
@@ -217,12 +228,7 @@ export default function Home() {
           </div>
 
           {loading ? (
-            <div className="flex flex-col justify-center items-center h-64">
-              <Loader2 className="h-16 w-16 animate-spin text-primary" />
-              <span className="mt-4 text-muted-foreground text-lg">
-                Generating your unique browser fingerprint...
-              </span>
-            </div>
+            LoadingSpinner
           ) : error ? (
             <div>
               <div
