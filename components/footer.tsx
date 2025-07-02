@@ -7,7 +7,7 @@ export default function Footer() {
       <div className="container mx-auto px-4 py-6 flex flex-col md:flex-row justify-between items-center">
         <div className="flex items-center mb-4 md:mb-0">
           <Image src="/logo.png" alt="Fingerprint Logo" width={40} height={40} className="h-10 w-10" />
-          <Link href="https://globalopensourcesoftwares.in" target="_blank">
+          <Link href="https://gossorg.in" target="_blank">
             <Image src="/goss.png" alt="GOSS Logo" width={96} height={48} className="h-12 w-auto ml-4" />
           </Link>
           <Link href="https://cloudflare.com" target="_blank">
