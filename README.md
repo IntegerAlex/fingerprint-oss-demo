@@ -1,77 +1,140 @@
 # Fingerprint OSS Demo
 
 [![License: GPL-3.0](https://img.shields.io/badge/License-GPL--3.0-blue.svg)](https://opensource.org/licenses/GPL-3.0)
-[![Demo](https://img.shields.io/badge/Demo-Live-brightgreen.svg)](https://integeralex.github.io/fingerprint-oss-demo/)
+[![Demo](https://img.shields.io/badge/Demo-Live-brightgreen.svg)](https://fingerprint-oss-demo.vercel.app/)
 [![Fingerprint OSS](https://img.shields.io/badge/Fingerprint%20OSS-Repository-blue.svg)](https://github.com/IntegerAlex/fingerprint-oss)
-This directory contains a demo application that showcases the capabilities of the Fingerprint OSS library. It provides a visual interface to see what kind of information the library can collect from a browser.
-## Fingerprint-oss
 
-[main repository](https://github.com/IntegerAlex/fingerprint-oss)
+## 🚀 Backed by Cloudflare OSS
 
-## Live Demo
+This project is proudly backed by [Cloudflare's Open Source Software initiative](https://cloudflare.com), providing enterprise-grade infrastructure and performance for the Fingerprint OSS ecosystem.
 
-You can view a live version of this demo at: [https://integeralex.github.io/fingerprint-oss-demo/](https://integeralex.github.io/fingerprint-oss-demo/)
+---
 
-## Features Demonstrated
+A comprehensive demo application showcasing the advanced capabilities of the **Fingerprint OSS** library. This interactive demo provides a beautiful, modern interface to explore browser fingerprinting technology and understand what information can be collected from web browsers in real-time.
 
-- Visualization of all data points collected by Fingerprint OSS
-- Clean, responsive UI for desktop and mobile devices
-- Code examples showing how to integrate the library
-- Copy functionality for easy code reuse
+## 🔗 Fingerprint OSS
 
-## Running Locally
+**Main Repository:** [https://github.com/IntegerAlex/fingerprint-oss](https://github.com/IntegerAlex/fingerprint-oss)
+
+## 🌐 Live Demo
+
+Experience the demo live at: **[https://fingerprint-oss-demo.vercel.app/](https://fingerprint-oss-demo.vercel.app/)**
+
+## ✨ Features Demonstrated
+
+- **🎨 Modern Dark Theme UI** - Beautiful, responsive interface with smooth animations
+- **📊 Comprehensive Data Visualization** - All fingerprint data points displayed in organized sections
+- **📱 Mobile-First Design** - Optimized for all screen sizes and devices
+- **🔍 Interactive Elements** - Hover effects, copy functionality, and smooth scrolling
+- **📋 One-Click Copy** - Easy copying of hash values, IP addresses, and other data
+- **⚡ Real-Time Processing** - Instant fingerprint generation and analysis
+- **🛡️ Security Analysis** - VPN detection, anonymity assessment, and confidence scoring
+- **💻 Code Examples** - Complete integration examples for developers
+
+## 🚀 Tech Stack
+
+- **Framework:** Next.js 14 with TypeScript
+- **Styling:** Tailwind CSS with custom dark theme
+- **UI Components:** Radix UI primitives
+- **Icons:** Lucide React
+- **Deployment:** Vercel
+
+## 🛠️ Running Locally
 
 To run this demo on your local machine:
 
-1. Clone the repository:
+1. **Clone the repository:**
+
    ```bash
    git clone https://github.com/IntegerAlex/fingerprint-oss-demo.git
-   cd fingerprint-oss-demo/
+   cd fingerprint-oss-demo
    ```
 
-2. Install dependencies:
+2. **Install dependencies:**
+
    ```bash
    npm install
+   # or
+   pnpm install
    ```
 
-3. Start the development server:
+3. **Start the development server:**
+
    ```bash
    npm run dev
+   # or
+   pnpm dev
    ```
 
-4. Open your browser and navigate to `http://localhost:5173`
+4. **Open your browser** and navigate to `http://localhost:3000`
 
-## How It Works
+## 🔍 How It Works
 
-The demo application uses the Fingerprint OSS library to collect browser information. When you load the page, the library is called and the results are displayed in a formatted JSON object.
+The demo application utilizes the Fingerprint OSS library to collect comprehensive browser information. The process includes:
 
-Key components:
-- `index.html` - The main HTML file for the demo
-- `src/style.css` - Styling for the demo
-- `src/main.js` - JavaScript that calls the Fingerprint OSS library and displays results
+1. **Fingerprint Collection** - Gathering over 50+ unique browser characteristics
+2. **Data Processing** - Analyzing collected data for uniqueness and reliability
+3. **Confidence Assessment** - Statistical evaluation of fingerprint accuracy
+4. **Visualization** - Presenting data in an intuitive, interactive interface
 
-## Example Output
+### Key Components:
 
-The demo will display information including:
+- **`app/page.tsx`** - Main application logic and fingerprint collection
+- **`components/fingerprint-display.tsx`** - Interactive data visualization component
+- **`components/installation-guide.tsx`** - Developer integration examples
+- **`app/globals.css`** - Custom dark theme and animations
 
-- Browser details (name, version, language)
-- Operating system information
-- Screen and window dimensions
-- Hardware details where available
-- Network information
-- Time and timezone data
-- And much more...
+## 📈 Example Output
 
-## Security & Privacy Notes
+The demo displays comprehensive information including:
 
-This demo is for educational purposes only. The Fingerprint OSS library only displays the collected information in your browser and does not transmit any data to remote servers.
+### 🖥️ System Information
 
-All processing happens client-side, keeping your information private and secure.
+- Browser details (name, version, user agent)
+- Operating system and version
+- Hardware specifications (CPU cores, memory)
+- Screen resolution and color depth
 
-## Contributing
+### 🌍 Geolocation Data
 
-If you'd like to improve this demo, please feel free to submit pull requests to the [main repository](https://github.com/IntegerAlex/fingerprint-oss).
+- IP address and network information
+- Country, region, and city location
+- Timezone and coordinates
+- VPN and proxy detection
 
-## License
+### 🔒 Security Analysis
 
-This demo is released under the GPL-3.0 license, the same as the main Fingerprint OSS library. 
+- Anonymity assessment
+- VPN probability scoring
+- Incognito mode detection
+- Ad blocker identification
+
+### 📊 Confidence Metrics
+
+- System confidence scoring
+- Combined reliability assessment
+- Statistical analysis and factors
+
+## 🔐 Security & Privacy
+
+- **Client-Side Processing** - All fingerprinting happens in your browser
+- **No Data Transmission** - Information stays on your device
+- **Transparent Operation** - Clear indication of demo mode
+- **Educational Purpose** - Designed for learning and development
+
+## 🤝 Contributing
+
+We welcome contributions! To improve this demo:
+
+1. Fork the [main repository](https://github.com/IntegerAlex/fingerprint-oss-demo)
+2. Create a feature branch
+3. Make your improvements
+4. Submit a pull request
+
+## 📄 License
+
+This demo is released under the **GPL-3.0 license**, maintaining consistency with the main Fingerprint OSS library.
+
+---
+
+**Powered by [Global Open Source Softwares (GOSS)](https://globalopensourcesoftwares.in) • Backed by [Cloudflare OSS](https://cloudflare.com)**
