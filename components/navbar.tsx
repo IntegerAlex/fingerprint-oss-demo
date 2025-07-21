@@ -18,6 +18,18 @@ export default function Navbar() {
             <NavLink href="https://github.com/IntegerAlex/fingerprint-oss" target="_blank">
               GitHub
             </NavLink>
+            <a
+              href="https://www.buymeacoffee.com/IntegerAlex"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center"
+            >
+              <img
+                src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png"
+                alt="Buy Me A Coffee"
+                style={{ height: "40px", width: "145px" }}
+              />
+            </a>
           </div>
           <div className="md:hidden">
             <button className="text-foreground hover:text-primary">

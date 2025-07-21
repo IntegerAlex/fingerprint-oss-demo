@@ -3,6 +3,7 @@
 [![License: GPL-3.0](https://img.shields.io/badge/License-GPL--3.0-blue.svg)](https://opensource.org/licenses/GPL-3.0)
 [![Demo](https://img.shields.io/badge/Demo-Live-brightgreen.svg)](https://fingerprint-oss-demo.vercel.app/)
 [![Fingerprint OSS](https://img.shields.io/badge/Fingerprint%20OSS-Repository-blue.svg)](https://github.com/IntegerAlex/fingerprint-oss)
+<a href="https://www.buymeacoffee.com/IntegerAlex" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 40px !important;width: 145px !important; vertical-align: middle; margin-left: 8px;" ></a>
 
 ## 🚀 Backed by Cloudflare OSS
 

@@ -13,6 +13,18 @@ export default function Footer() {
           <Link href="https://cloudflare.com" target="_blank">
             <Image src="/cloudflare.png" alt="Cloudflare Logo" width={160} height={40} className="h-10 w-auto ml-4" />
           </Link>
+          <a
+            href="https://www.buymeacoffee.com/IntegerAlex"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="ml-4 flex items-center"
+          >
+            <img
+              src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png"
+              alt="Buy Me A Coffee"
+              style={{ height: "40px", width: "145px" }}
+            />
+          </a>
         </div>
 
         <div className="text-center md:text-right">

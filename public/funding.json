@@ -9,7 +9,7 @@
         "description": "Global Open Source Softwares (GOSS) is an organization backing the Fingerprint OSS project, which provides a free and open-source client-side fingerprinting library.",
         "webpageUrl": {
             "url": "https://fingerprint-oss.gossorg.in",
-            "wellKnown": ""
+            "wellKnown": "https://fingerprint-oss.gossorg.in/.well-known/funding-manifest-urls"
         }
     },
     "projects": [{
@@ -18,7 +18,7 @@
         "description": "A free and open source client-side fingerprinting library that logs user information and identifies unique visitors with high accuracy. It is backed by Cloudflare OSS.",
         "webpageUrl": {
             "url": "https://fingerprint-oss.gossorg.in",
-            "wellKnown": ""
+            "wellKnown": "https://fingerprint-oss.gossorg.in/.well-known/funding-manifest-urls"
         },
         "repositoryUrl": {
             "url": "https://github.com/IntegerAlex/fingerprint-oss",
