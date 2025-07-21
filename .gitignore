@@ -3,6 +3,11 @@
 # dependencies
 /node_modules
 
+# open-next
+.open-next/
+dist/
+.wrangler/
+
 # next.js
 /.next/
 /out/
